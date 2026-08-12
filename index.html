@@ -442,12 +442,32 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎤 Générateur d'Affiche Réunion</h1>
-        <p>Personnalisez votre affiche pour chaque réunion résidents</p>
+    <div id="login-screen" style="display: none; width: 100%; height: 100vh; position: fixed; top: 0; left: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+        <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); width: 100%; max-width: 400px;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔐</div>
+                <h1 style="margin: 0; font-size: 1.8rem; color: #333;">Générateur d'Affiche</h1>
+                <p style="color: #666; margin: 0.5rem 0 0 0;">Accès réservé aux collaborateurs</p>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Mot de passe</label>
+                <input type="password" id="password-input" placeholder="Entrez le mot de passe" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box;" onkeypress="if(event.key==='Enter') verifierMotDePasse();">
+            </div>
+            
+            <button onclick="verifierMotDePasse()" style="width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem;">Accéder</button>
+            
+            <div id="error-message" style="display: none; margin-top: 1rem; padding: 0.8rem; background: #fee; border: 1px solid #fcc; border-radius: 6px; color: #c33; text-align: center;">Mot de passe incorrect</div>
+        </div>
     </div>
 
-    <div class="container">
+    <div id="main-content" style="display: none;">
+        <div class="header">
+            <h1>🎤 Générateur d'Affiche Réunion</h1>
+            <p>Personnalisez votre affiche pour chaque réunion résidents</p>
+        </div>
+
+        <div class="container">
         <!-- FORMULAIRE À GAUCHE -->
         <div class="panel panel-left">
             <h2>⚙️ Personnalisez</h2>
@@ -492,9 +512,35 @@
             </div>
             <div id="preview" class="preview-container"></div>
         </div>
+        </div>
     </div>
 
     <script>
+        // Mot de passe
+        const MOT_DE_PASSE = 'Azerty97';
+
+        function verifierMotDePasse() {
+            const inputPassword = document.getElementById('password-input').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            if (inputPassword === MOT_DE_PASSE) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('password-input').value = '';
+                document.getElementById('password-input').focus();
+            }
+        }
+
+        // Afficher le login au démarrage
+        window.addEventListener('load', function() {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('password-input').focus();
+        });
+
         let themes = [];
 
         const emojiCategories = {
