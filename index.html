@@ -495,63 +495,66 @@
     </div>
 
     <script>
-        let themes = [
-            { emoji: '🧼', titre: 'Hygiène & Espace', desc: 'Soi, la chambre, l\'aération...', couleur: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
-            { emoji: '👨‍🍳', titre: 'Repas du Samedi', desc: 'Cuisinez avec nous !', couleur: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
-            { emoji: '💌', titre: 'Boîte à Idées', desc: 'Parlez, proposez !', couleur: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }
-        ];
+        let themes = [];
 
-        const emojisDisponibles = [
-            // Hygiène & Bien-être
-            '🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🧸', '🚿',
-            // Repas & Alimentation
-            '🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕', '🥬', '🥖', '🍞', '☕', '🥛', '🍵',
-            // Activités & Loisirs
-            '🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾', '🏐', '🏊', '🚴', '🧗', '🎸', '🎵', '🎪', '🧩', '🎲',
-            // Santé & Médical
-            '💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒',
-            // Logement & Chambre
-            '🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️', '🪑', '🛌', '🧻', '🧼', '💡', '🔌',
-            // Travail & Emploi
-            '💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔', '👞', '📞', '📧',
-            // Communication & Idées
-            '💬', '💡', '📢', '🗣️', '👂', '📣', '✍️', '💭',
-            // Transport & Mobilité
-            '🚗', '🚌', '🚆', '🚇', '🚲', '🚶', '🛴', '🚕',
-            // Émotions & Bien-être
-            '❤️', '😊', '🙌', '👍', '💪', '😌', '🤗', '✨', '⭐', '🌟',
-            // Sécurité & Règles
-            '🔒', '📋', '⚠️', '✅', '❌', '📌', '🔑', '⏰',
-            // Autres utiles
-            '🌍', '🎯', '📈', '🎁', '🏆', '🌈', '☀️', '🌙', '⚡'
-        ];
+        const emojiCategories = {
+            '🧼 Hygiène & Bien-être': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🧸', '🚿'],
+            '🍽️ Repas & Alimentation': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕', '🥬', '🥖', '🍞', '☕', '🥛', '🍵'],
+            '🎨 Activités & Loisirs': ['🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾', '🏐', '🏊', '🚴', '🧗', '🎸', '🎵', '🎪', '🧩', '🎲'],
+            '💊 Santé & Médical': ['💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒'],
+            '🏠 Logement & Chambre': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️', '🪑', '🛌', '💡', '🔌'],
+            '💼 Travail & Emploi': ['💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔', '👞', '📞', '📧'],
+            '💬 Communication & Idées': ['💬', '💡', '📢', '🗣️', '👂', '📣', '✍️', '💭'],
+            '🚗 Transport & Mobilité': ['🚗', '🚌', '🚆', '🚇', '🚲', '🚶', '🛴', '🚕'],
+            '❤️ Émotions & Bien-être': ['❤️', '😊', '🙌', '👍', '💪', '😌', '🤗', '✨', '⭐', '🌟'],
+            '🔒 Sécurité & Règles': ['🔒', '📋', '⚠️', '✅', '❌', '📌', '🔑', '⏰'],
+            '🌍 Autres utiles': ['🌍', '🎯', '📈', '🎁', '🏆', '🌈', '☀️', '🌙', '⚡']
+        };
 
         function renderEmojis() {
             const palette = document.getElementById('emoji-palette');
             palette.innerHTML = '';
             
-            emojisDisponibles.forEach(emoji => {
-                const btn = document.createElement('button');
-                btn.className = 'emoji-btn';
-                btn.innerHTML = emoji;
-                btn.onclick = (e) => {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(emoji).then(() => {
-                        btn.style.background = '#4facfe';
-                        btn.style.color = 'white';
-                        setTimeout(() => {
-                            btn.style.background = '#f9f9f9';
-                            btn.style.color = 'inherit';
-                        }, 200);
-                    });
-                };
-                palette.appendChild(btn);
+            Object.entries(emojiCategories).forEach(([category, emojis]) => {
+                // Titre de catégorie
+                const categoryTitle = document.createElement('div');
+                categoryTitle.style.cssText = 'grid-column: 1 / -1; margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: #333; border-bottom: 1px solid #e0e0e0; padding-bottom: 0.5rem;';
+                categoryTitle.innerHTML = category;
+                palette.appendChild(categoryTitle);
+                
+                // Emojis de la catégorie
+                emojis.forEach(emoji => {
+                    const btn = document.createElement('button');
+                    btn.className = 'emoji-btn';
+                    btn.innerHTML = emoji;
+                    btn.style.gridColumn = 'auto';
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(emoji).then(() => {
+                            btn.style.background = '#4facfe';
+                            btn.style.color = 'white';
+                            setTimeout(() => {
+                                btn.style.background = '#f9f9f9';
+                                btn.style.color = 'inherit';
+                            }, 200);
+                        });
+                    };
+                    palette.appendChild(btn);
+                });
             });
         }
 
         function renderThemes() {
             const container = document.getElementById('themes-container');
             container.innerHTML = '';
+            
+            if (themes.length === 0) {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.style.cssText = 'padding: 1rem; background: #f0f7ff; border: 1px solid #4facfe; border-radius: 6px; color: #666; text-align: center; font-size: 0.9rem;';
+                emptyMsg.innerHTML = '📝 Cliquez sur "+ Ajouter un thème" pour commencer';
+                container.appendChild(emptyMsg);
+                return;
+            }
             
             themes.forEach((theme, index) => {
                 const div = document.createElement('div');
@@ -598,6 +601,12 @@
                 </div>
             `).join('');
 
+            const themesSection = themes.length > 0 ? 
+                `<div class="preview-themes">${themesHTML}</div>` :
+                `<div class="preview-themes" style="display: flex; align-items: center; justify-content: center; min-height: 150px; background: #f9f9f9;">
+                    <p style="color: #999; text-align: center;">Ajoutez des thèmes pour voir l'aperçu 👈</p>
+                </div>`;
+
             const html = `
                 <div class="preview-header">
                     <div class="preview-header-icon">🎤</div>
@@ -605,9 +614,7 @@
                     <p>📅 ${date}</p>
                 </div>
                 <div class="preview-subtitle">${soustitre}</div>
-                <div class="preview-themes">
-                    ${themesHTML}
-                </div>
+                ${themesSection}
                 <div class="preview-footer">
                     <p>Ne manquez pas cette réunion importante ! 🎯</p>
                 </div>
@@ -642,6 +649,7 @@
 
         // Initialiser
         renderThemes();
+        updateAddButton();
         renderEmojis();
         renderPreview();
     </script>
