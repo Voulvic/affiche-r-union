@@ -30,9 +30,6 @@ Les couleurs et emojis par défaut sont :
 - 🎨 Activités (rose-jaune)
 
 Vous pouvez changer tous les emojis et couleurs directement dans l'application !
-
-## 📱 Responsive
-
 L'outil s'adapte parfaitement à :
 - 💻 Ordinateur
 - 📱 Mobile
