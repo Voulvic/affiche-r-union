@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur d'Affiche Réunion Résidents</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -143,10 +144,15 @@
             cursor: not-allowed;
         }
 
-        .btn-print {
-            width: 100%;
+        .btn-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-print, .btn-pdf {
+            flex: 1;
             padding: 0.8rem;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
             color: white;
             border: none;
             border-radius: 6px;
@@ -154,10 +160,17 @@
             cursor: pointer;
             font-size: 0.95rem;
             transition: transform 0.2s;
-            margin-top: 1rem;
         }
 
-        .btn-print:hover {
+        .btn-print {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-print:hover, .btn-pdf:hover {
             transform: scale(1.02);
         }
 
@@ -445,7 +458,10 @@
         <!-- APERÇU À DROITE -->
         <div class="panel panel-right">
             <h2>👁️ Aperçu</h2>
-            <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer l'affiche</button>
+            <div class="btn-actions">
+                <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
+                <button class="btn-pdf" onclick="telechargerPDF()">📥 Télécharger PDF</button>
+            </div>
             <div id="preview" class="preview-container"></div>
         </div>
     </div>
@@ -527,6 +543,21 @@
 
         function imprimerAffiche() {
             window.print();
+        }
+
+        function telechargerPDF() {
+            const titre = document.getElementById('titre').value || 'Affiche-Reunion';
+            const element = document.getElementById('preview');
+            
+            const opt = {
+                margin: 0,
+                filename: titre + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
         }
 
         // Event listeners pour mise à jour en temps réel
