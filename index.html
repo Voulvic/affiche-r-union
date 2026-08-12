@@ -143,6 +143,24 @@
             cursor: not-allowed;
         }
 
+        .btn-print {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+            margin-top: 1rem;
+        }
+
+        .btn-print:hover {
+            transform: scale(1.02);
+        }
+
         .divider {
             margin: 1.5rem 0;
             border: none;
@@ -273,6 +291,41 @@
             color: #666;
             font-size: 0.95rem;
         }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .header {
+                display: none;
+            }
+
+            .container {
+                display: block;
+                max-width: 100%;
+                gap: 0;
+            }
+
+            .panel {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .panel-left {
+                display: none;
+            }
+
+            .panel-right {
+                position: relative;
+                top: 0;
+            }
+
+            .preview-container {
+                box-shadow: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -312,6 +365,7 @@
         <!-- APERÇU À DROITE -->
         <div class="panel panel-right">
             <h2>👁️ Aperçu</h2>
+            <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer l'affiche</button>
             <div id="preview" class="preview-container"></div>
         </div>
     </div>
@@ -389,6 +443,10 @@
             `;
             
             document.getElementById('preview').innerHTML = html;
+        }
+
+        function imprimerAffiche() {
+            window.print();
         }
 
         // Event listeners pour mise à jour en temps réel
