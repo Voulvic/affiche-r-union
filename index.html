@@ -146,20 +146,26 @@
 
         .btn-actions {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
-        .btn-print, .btn-pdf {
+        .btn-print, .btn-pdf, .btn-translate {
             flex: 1;
-            padding: 0.8rem;
+            min-width: 100px;
+            padding: 0.7rem 0.5rem;
             color: white;
             border: none;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             transition: transform 0.2s;
+        }
+
+        .btn-print:hover, .btn-pdf:hover, .btn-translate:hover {
+            transform: scale(1.02);
         }
 
         .btn-print {
@@ -168,6 +174,10 @@
 
         .btn-pdf {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-translate {
+            background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
         }
 
         .btn-print:hover, .btn-pdf:hover {
@@ -509,6 +519,7 @@
             <div class="btn-actions">
                 <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
                 <button class="btn-pdf" onclick="telechargerPDF()">📥 Télécharger PDF</button>
+                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🌐 Géorgien</button>
             </div>
             <div id="preview" class="preview-container"></div>
         </div>
@@ -518,6 +529,48 @@
     <script>
         // Mot de passe
         const MOT_DE_PASSE = 'Azerty97';
+
+        // Langue actuelle
+        let estEnGeorgien = false;
+
+        function traduireTexte(texte, langue) {
+            // Si c'est une traduction géorgienne, on utilise une traduction simplifiée
+            if (langue === 'ka') {
+                const traductions = {
+                    'RÉUNION RÉSIDENTS !': 'მოსახლეობის შეკრება !',
+                    'Au programme de cette réunion 👇': 'დღევანდელი აგენდა 👇',
+                    'Hygiène & Espace': 'ჰიგიენა & სივრცე',
+                    'Soi, la chambre, l\'aération...': 'თქვენი, ოთახი, ვენტილაცია...',
+                    'Repas du Samedi': 'შაბათის კვამლი',
+                    'Cuisinez avec nous !': 'მოაგვარეთ ჩვენთან !',
+                    'Boîte à Idées': 'აზრების ყუთი',
+                    'Parlez, proposez !': 'ისაუბრეთ, შემოთავაზეთ !',
+                    'Activités': 'აქტივობები',
+                    'Vos envies, vos intérêts': 'თქვენი სურვილები, თქვენი ინტერესები',
+                    'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !',
+                    'DEMAIN À 13H': 'ხვალ 13:00 საათზე'
+                };
+                return traductions[texte] || texte;
+            }
+            return texte;
+        }
+
+        function basculerGeorgien() {
+            estEnGeorgien = !estEnGeorgien;
+            const btn = document.getElementById('btn-translate');
+            
+            if (estEnGeorgien) {
+                btn.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
+                btn.innerHTML = '🇫🇷 Français';
+            } else {
+                btn.style.background = 'linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%)';
+                btn.innerHTML = '🌐 Géorgien';
+            }
+            
+            renderPreview();
+        }
+
+        // Mot de passe
 
         function verifierMotDePasse() {
             const inputPassword = document.getElementById('password-input').value;
@@ -635,23 +688,44 @@
         }
 
         function renderPreview() {
-            const date = document.getElementById('date').value;
-            const titre = document.getElementById('titre').value;
-            const soustitre = document.getElementById('soustitre').value;
+            let date = document.getElementById('date').value;
+            let titre = document.getElementById('titre').value;
+            let soustitre = document.getElementById('soustitre').value;
             
-            const themesHTML = themes.map(t => `
-                <div class="theme-card" style="background: ${t.couleur};">
-                    <div class="theme-card-icon">${t.emoji}</div>
-                    <h3>${t.titre}</h3>
-                    <p>${t.desc}</p>
-                </div>
-            `).join('');
+            // Traduire si géorgien
+            if (estEnGeorgien) {
+                date = traduireTexte(date, 'ka');
+                titre = traduireTexte(titre, 'ka');
+                soustitre = traduireTexte(soustitre, 'ka');
+            }
+            
+            const themesHTML = themes.map(t => {
+                let themeTitre = t.titre;
+                let themeDesc = t.desc;
+                
+                if (estEnGeorgien) {
+                    themeTitre = traduireTexte(themeTitre, 'ka');
+                    themeDesc = traduireTexte(themeDesc, 'ka');
+                }
+                
+                return `
+                    <div class="theme-card" style="background: ${t.couleur};">
+                        <div class="theme-card-icon">${t.emoji}</div>
+                        <h3>${themeTitre}</h3>
+                        <p>${themeDesc}</p>
+                    </div>
+                `;
+            }).join('');
 
             const themesSection = themes.length > 0 ? 
                 `<div class="preview-themes">${themesHTML}</div>` :
                 `<div class="preview-themes" style="display: flex; align-items: center; justify-content: center; min-height: 150px; background: #f9f9f9;">
                     <p style="color: #999; text-align: center;">Ajoutez des thèmes pour voir l'aperçu 👈</p>
                 </div>`;
+
+            const footerText = estEnGeorgien ? 
+                'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია ! 🎯' :
+                'Ne manquez pas cette réunion importante ! 🎯';
 
             const html = `
                 <div class="preview-header">
@@ -662,7 +736,7 @@
                 <div class="preview-subtitle">${soustitre}</div>
                 ${themesSection}
                 <div class="preview-footer">
-                    <p>Ne manquez pas cette réunion importante ! 🎯</p>
+                    <p>${footerText}</p>
                 </div>
             `;
             
