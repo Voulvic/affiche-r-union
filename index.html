@@ -139,23 +139,24 @@
         }
 
         .btn-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 0.8rem;
             margin-top: 1rem;
-            flex-wrap: wrap;
         }
 
         .btn-print, .btn-pdf, .btn-translate {
-            flex: 1;
-            min-width: 100px;
-            padding: 0.7rem 0.5rem;
+            padding: 0.8rem 1rem;
             color: white;
             border: none;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             transition: transform 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .btn-print:hover, .btn-pdf:hover, .btn-translate:hover {
@@ -407,6 +408,15 @@
             .preview-themes {
                 grid-template-columns: 1fr;
             }
+
+            .btn-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-print, .btn-pdf, .btn-translate {
+                font-size: 1rem;
+                padding: 1rem;
+            }
         }
 
         @media print {
@@ -520,7 +530,7 @@
                 <div class="btn-actions">
                     <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
                     <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
-                    <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🌐 GEO</button>
+                    <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🇬🇪 Géorgien</button>
                 </div>
                 <div id="preview" class="preview-container"></div>
             </div>
@@ -542,15 +552,42 @@
             '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝']
         };
 
-        // Traductions géorgiennes
+        // Traductions géorgiennes complètes
         const traductionsGeo = {
             'RÉUNION RÉSIDENTS !': 'მოსახლეობის შეკრება !',
             'Au programme de cette réunion 👇': 'დღევანდელი აგენდა 👇',
-            'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !'
+            'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !',
+            'Hygiène & Espace': 'ჰიგიენა და სივრცე',
+            'Soi, la chambre, l\'aération...': 'თქვენი, ოთახი, ვენტილაცია...',
+            'Repas du Samedi': 'შაბათის კვამლი',
+            'Cuisinez avec nous !': 'მოაგვარეთ ჩვენთან !',
+            'Boîte à Idées': 'აზრების ყუთი',
+            'Parlez, proposez !': 'ისაუბრეთ, შემოთავაზეთ !',
+            'Activités': 'აქტივობები',
+            'Vos envies, vos intérêts': 'თქვენი სურვილები, თქვენი ინტერესები',
+            'DEMAIN À 13H': 'ხვალ 13:00 საათზე',
+            'Demain 13h': 'ხვალ 13:00',
+            'Nouveau thème': 'ახალი თემა',
+            'Description': 'აღწერა'
         };
 
         function traduire(texte) {
-            return traductionsGeo[texte] || texte;
+            if (!texte) return texte;
+            
+            // Chercher une traduction exacte
+            if (traductionsGeo[texte]) {
+                return traductionsGeo[texte];
+            }
+            
+            // Chercher une traduction partielle
+            for (let cle in traductionsGeo) {
+                if (texte.toLowerCase().includes(cle.toLowerCase())) {
+                    return traductionsGeo[cle];
+                }
+            }
+            
+            // Si pas de traduction, retourner le texte original
+            return texte;
         }
 
         function verifierMotDePasse() {
@@ -706,10 +743,10 @@
             
             if (estEnGeorgien) {
                 btn.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
-                btn.innerHTML = '🇫🇷 FR';
+                btn.innerHTML = '🇫🇷 Français';
             } else {
                 btn.style.background = 'linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%)';
-                btn.innerHTML = '🌐 GEO';
+                btn.innerHTML = '🇬🇪 Géorgien';
             }
             
             renderPreview();
