@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur d'Affiche Réunion Résidents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .panel-left {
+            height: fit-content;
+        }
+
+        .panel-right {
+            position: sticky;
+            top: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 0.8rem;
+        }
+
+        h3 {
+            font-size: 1rem;
+            color: #333;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .theme-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 1rem;
+        }
+
+        .theme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .theme-emoji {
+            width: 60px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .btn-remove {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: #ff5252;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 0.8rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #2e8fd6;
+        }
+
+        .btn-add:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+
+        /* Aperçu */
+        .preview-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .preview-header {
+            background: linear-gradient(90deg, #FF6B6B 0%, #FF8E53 25%, #FFC93D 50%, #4ECDC4 75%, #45B7D1 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .preview-header-icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .preview-header p {
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 1rem 0 0 0;
+        }
+
+        .preview-subtitle {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            color: #333;
+            font-style: italic;
+            font-weight: 500;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .preview-themes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            padding: 2rem;
+        }
+
+        .theme-card {
+            padding: 1.5rem;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .theme-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .theme-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .preview-footer {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 5px solid #FF6B6B;
+        }
+
+        .preview-footer p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-right {
+                position: relative;
+                top: 0;
+            }
+
+            .preview-header h1 {
+                font-size: 2rem;
+            }
+
+            .preview-themes {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎤 Générateur d'Affiche Réunion</h1>
+        <p>Personnalisez votre affiche pour chaque réunion résidents</p>
+    </div>
+
+    <div class="container">
+        <!-- FORMULAIRE À GAUCHE -->
+        <div class="panel panel-left">
+            <h2>⚙️ Personnalisez</h2>
+            
+            <div class="form-group">
+                <label for="date">📅 Date et Heure</label>
+                <input type="text" id="date" value="DEMAIN À 13H" placeholder="Ex: DEMAIN À 13H">
+            </div>
+
+            <div class="form-group">
+                <label for="titre">📝 Titre principal</label>
+                <input type="text" id="titre" value="RÉUNION RÉSIDENTS !" placeholder="Ex: RÉUNION RÉSIDENTS !">
+            </div>
+
+            <div class="form-group">
+                <label for="soustitre">Sous-titre</label>
+                <input type="text" id="soustitre" value="Au programme de cette réunion 👇" placeholder="Sous-titre">
+            </div>
+
+            <hr class="divider">
+
+            <h3>Thèmes (max 4)</h3>
+            <div id="themes-container"></div>
+
+            <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
+        </div>
+
+        <!-- APERÇU À DROITE -->
+        <div class="panel panel-right">
+            <h2>👁️ Aperçu</h2>
+            <div id="preview" class="preview-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let themes = [
+            { emoji: '🧼', titre: 'Hygiène & Espace', desc: 'Soi, la chambre, l\'aération...', couleur: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+            { emoji: '👨‍🍳', titre: 'Repas du Samedi', desc: 'Cuisinez avec nous !', couleur: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+            { emoji: '💌', titre: 'Boîte à Idées', desc: 'Parlez, proposez !', couleur: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+            { emoji: '🎨', titre: 'Activités', desc: 'Vos envies, vos intérêts', couleur: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }
+        ];
+
+        function renderThemes() {
+            const container = document.getElementById('themes-container');
+            container.innerHTML = '';
+            
+            themes.forEach((theme, index) => {
+                const div = document.createElement('div');
+                div.className = 'theme-item';
+                
+                div.innerHTML = `
+                    <div class="theme-header">
+                        <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; renderPreview();">
+                        <button class="btn-remove" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
+                    </div>
+                    <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; renderPreview();">
+                    <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; renderPreview();">
+                `;
+                
+                container.appendChild(div);
+            });
+
+            updateAddButton();
+        }
+
+        function updateAddButton() {
+            const btn = document.getElementById('btn-add');
+            btn.disabled = themes.length >= 4;
+        }
+
+        function ajouterTheme() {
+            if (themes.length < 4) {
+                themes.push({ emoji: '⭐', titre: 'Nouveau thème', desc: 'Description', couleur: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' });
+                renderThemes();
+                renderPreview();
+            }
+        }
+
+        function renderPreview() {
+            const date = document.getElementById('date').value;
+            const titre = document.getElementById('titre').value;
+            const soustitre = document.getElementById('soustitre').value;
+            
+            const themesHTML = themes.map(t => `
+                <div class="theme-card" style="background: ${t.couleur};">
+                    <div class="theme-card-icon">${t.emoji}</div>
+                    <h3>${t.titre}</h3>
+                    <p>${t.desc}</p>
+                </div>
+            `).join('');
+
+            const html = `
+                <div class="preview-header">
+                    <div class="preview-header-icon">🎤</div>
+                    <h1>${titre}</h1>
+                    <p>📅 ${date}</p>
+                </div>
+                <div class="preview-subtitle">${soustitre}</div>
+                <div class="preview-themes">
+                    ${themesHTML}
+                </div>
+                <div class="preview-footer">
+                    <p>Ne manquez pas cette réunion importante ! 🎯</p>
+                </div>
+            `;
+            
+            document.getElementById('preview').innerHTML = html;
+        }
+
+        // Event listeners pour mise à jour en temps réel
+        document.getElementById('date').addEventListener('input', renderPreview);
+        document.getElementById('titre').addEventListener('input', renderPreview);
+        document.getElementById('soustitre').addEventListener('input', renderPreview);
+
+        // Initialiser
+        renderThemes();
+        renderPreview();
+    </script>
+</body>
+</html>
