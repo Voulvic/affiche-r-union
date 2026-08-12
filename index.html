@@ -174,6 +174,26 @@
             transform: scale(1.02);
         }
 
+        .emoji-btn {
+            aspect-ratio: 1;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .emoji-btn:hover {
+            background: #f0f0f0;
+            border-color: #4facfe;
+            transform: scale(1.1);
+            box-shadow: 0 2px 6px rgba(79, 172, 254, 0.2);
+        }
+
         .divider {
             margin: 1.5rem 0;
             border: none;
@@ -453,6 +473,14 @@
             <div id="themes-container"></div>
 
             <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
+
+            <hr class="divider">
+
+            <h3>🎨 Emojis disponibles</h3>
+            <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
+            <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;">
+                <!-- Les emojis seront générés par JS -->
+            </div>
         </div>
 
         <!-- APERÇU À DROITE -->
@@ -470,9 +498,33 @@
         let themes = [
             { emoji: '🧼', titre: 'Hygiène & Espace', desc: 'Soi, la chambre, l\'aération...', couleur: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
             { emoji: '👨‍🍳', titre: 'Repas du Samedi', desc: 'Cuisinez avec nous !', couleur: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
-            { emoji: '💌', titre: 'Boîte à Idées', desc: 'Parlez, proposez !', couleur: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
-            { emoji: '🎨', titre: 'Activités', desc: 'Vos envies, vos intérêts', couleur: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }
+            { emoji: '💌', titre: 'Boîte à Idées', desc: 'Parlez, proposez !', couleur: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }
         ];
+
+        const emojisDisponibles = ['🧼', '👨‍🍳', '💌', '🎨', '🎯', '📚', '🏃', '⚽', '🎬', '🎵', '🍕', '🍰', '☕', '🌍', '💡', '🔧', '📱', '💻', '🎪', '🏥', '🚀', '✈️', '🏆', '⭐', '💪', '🎓', '📖', '🎯', '🌟', '💯', '🎉', '🎊', '✅', '❤️', '👍', '🙌'];
+
+        function renderEmojis() {
+            const palette = document.getElementById('emoji-palette');
+            palette.innerHTML = '';
+            
+            emojisDisponibles.forEach(emoji => {
+                const btn = document.createElement('button');
+                btn.className = 'emoji-btn';
+                btn.innerHTML = emoji;
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(emoji).then(() => {
+                        btn.style.background = '#4facfe';
+                        btn.style.color = 'white';
+                        setTimeout(() => {
+                            btn.style.background = '#f9f9f9';
+                            btn.style.color = 'inherit';
+                        }, 200);
+                    });
+                };
+                palette.appendChild(btn);
+            });
+        }
 
         function renderThemes() {
             const container = document.getElementById('themes-container');
@@ -567,6 +619,7 @@
 
         // Initialiser
         renderThemes();
+        renderEmojis();
         renderPreview();
     </script>
 </body>
