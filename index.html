@@ -50,12 +50,6 @@
             padding-bottom: 0.8rem;
         }
 
-        h3 {
-            font-size: 1rem;
-            color: #333;
-            margin: 1.5rem 0 1rem 0;
-        }
-
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -180,37 +174,12 @@
             background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
         }
 
-        .btn-print:hover, .btn-pdf:hover {
-            transform: scale(1.02);
-        }
-
-        .emoji-btn {
-            aspect-ratio: 1;
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .emoji-btn:hover {
-            background: #f0f0f0;
-            border-color: #4facfe;
-            transform: scale(1.1);
-            box-shadow: 0 2px 6px rgba(79, 172, 254, 0.2);
-        }
-
         .divider {
             margin: 1.5rem 0;
             border: none;
             border-top: 1px solid #eee;
         }
 
-        /* Aperçu */
         .preview-container {
             background: white;
             border-radius: 12px;
@@ -300,6 +269,127 @@
             font-weight: 500;
         }
 
+        .emoji-btn {
+            aspect-ratio: 1;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .emoji-btn:hover {
+            background: #f0f0f0;
+            border-color: #4facfe;
+            transform: scale(1.1);
+            box-shadow: 0 2px 6px rgba(79, 172, 254, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        #login-screen {
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        #login-screen.hidden {
+            display: none;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box div:first-child {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-box h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .login-box p {
+            color: #666;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .login-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .login-input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .error-message {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 6px;
+            color: #c33;
+            text-align: center;
+        }
+
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 1fr;
@@ -317,22 +407,6 @@
             .preview-themes {
                 grid-template-columns: 1fr;
             }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 0.95rem;
         }
 
         @media print {
@@ -355,39 +429,15 @@
                 justify-content: center;
             }
 
-            .header {
+            .header, .container, #login-screen {
                 display: none;
             }
 
-            .container {
-                display: block;
-                max-width: 100%;
-                gap: 0;
+            #main-content {
+                display: block !important;
                 width: 100%;
                 height: 100%;
-                margin: 0;
                 padding: 0;
-            }
-
-            .panel {
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-                width: 100%;
-                height: 100%;
-            }
-
-            .panel-left {
-                display: none;
-            }
-
-            .panel-right {
-                position: relative;
-                top: 0;
-                padding: 0;
-                margin: 0;
-                width: 100%;
-                height: 100%;
             }
 
             .preview-container {
@@ -395,53 +445,6 @@
                 border-radius: 0;
                 width: 100%;
                 height: 100%;
-                overflow: hidden;
-            }
-
-            .preview-header {
-                padding: 1.2rem 1.5rem !important;
-            }
-
-            .preview-header h1 {
-                font-size: 2rem !important;
-            }
-
-            .preview-header p {
-                font-size: 1rem !important;
-            }
-
-            .preview-subtitle {
-                padding: 0.8rem 1.5rem !important;
-                font-size: 0.95rem !important;
-            }
-
-            .preview-themes {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-                padding: 1.5rem !important;
-            }
-
-            .theme-card {
-                padding: 1rem !important;
-                border-radius: 6px !important;
-            }
-
-            .theme-card-icon {
-                font-size: 2rem !important;
-            }
-
-            .theme-card h3 {
-                font-size: 0.95rem !important;
-            }
-
-            .theme-card p {
-                font-size: 0.85rem !important;
-            }
-
-            .preview-footer {
-                padding: 1rem 1.5rem !important;
-                font-size: 0.9rem !important;
             }
 
             @page {
@@ -452,22 +455,22 @@
     </style>
 </head>
 <body>
-    <div id="login-screen" style="display: none; width: 100%; height: 100vh; position: fixed; top: 0; left: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; z-index: 1000;">
-        <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); width: 100%; max-width: 400px;">
-            <div style="text-align: center; margin-bottom: 2rem;">
+    <div id="login-screen">
+        <div class="login-box">
+            <div>
                 <div style="font-size: 3rem; margin-bottom: 1rem;">🔐</div>
-                <h1 style="margin: 0; font-size: 1.8rem; color: #333;">Générateur d'Affiche</h1>
-                <p style="color: #666; margin: 0.5rem 0 0 0;">Accès réservé aux collaborateurs</p>
+                <h1>Générateur d'Affiche</h1>
+                <p>Accès réservé aux collaborateurs</p>
             </div>
             
-            <div style="margin-bottom: 1.5rem;">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Mot de passe</label>
-                <input type="password" id="password-input" placeholder="Entrez le mot de passe" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box;" onkeypress="if(event.key==='Enter') verifierMotDePasse();">
+            <div class="login-input-group">
+                <label>Mot de passe</label>
+                <input type="password" id="password-input" placeholder="Entrez le mot de passe" onkeypress="if(event.key==='Enter') verifierMotDePasse();">
             </div>
             
-            <button onclick="verifierMotDePasse()" style="width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem;">Accéder</button>
+            <button class="login-btn" onclick="verifierMotDePasse()">Accéder</button>
             
-            <div id="error-message" style="display: none; margin-top: 1rem; padding: 0.8rem; background: #fee; border: 1px solid #fcc; border-radius: 6px; color: #c33; text-align: center;">Mot de passe incorrect</div>
+            <div id="error-message" class="error-message">Mot de passe incorrect</div>
         </div>
     </div>
 
@@ -478,115 +481,77 @@
         </div>
 
         <div class="container">
-        <!-- FORMULAIRE À GAUCHE -->
-        <div class="panel panel-left">
-            <h2>⚙️ Personnalisez</h2>
-            
-            <div class="form-group">
-                <label for="date">📅 Date et Heure</label>
-                <input type="text" id="date" value="" placeholder="Ex: DEMAIN À 13H">
+            <!-- FORMULAIRE À GAUCHE -->
+            <div class="panel panel-left">
+                <h2>⚙️ Personnalisez</h2>
+                
+                <div class="form-group">
+                    <label for="date">📅 Date et Heure</label>
+                    <input type="text" id="date" value="" placeholder="Ex: DEMAIN À 13H">
+                </div>
+
+                <div class="form-group">
+                    <label for="titre">📝 Titre principal</label>
+                    <input type="text" id="titre" value="" placeholder="Ex: RÉUNION RÉSIDENTS !">
+                </div>
+
+                <div class="form-group">
+                    <label for="soustitre">Sous-titre</label>
+                    <input type="text" id="soustitre" value="" placeholder="Ex: Au programme de cette réunion 👇">
+                </div>
+
+                <hr class="divider">
+
+                <h3>Thèmes (max 4)</h3>
+                <div id="themes-container"></div>
+
+                <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
+
+                <hr class="divider">
+
+                <h3>🎨 Emojis disponibles</h3>
+                <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
+                <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;"></div>
             </div>
 
-            <div class="form-group">
-                <label for="titre">📝 Titre principal</label>
-                <input type="text" id="titre" value="" placeholder="Ex: RÉUNION RÉSIDENTS !">
+            <!-- APERÇU À DROITE -->
+            <div class="panel panel-right">
+                <h2>👁️ Aperçu</h2>
+                <div class="btn-actions">
+                    <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
+                    <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
+                    <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🌐 GEO</button>
+                </div>
+                <div id="preview" class="preview-container"></div>
             </div>
-
-            <div class="form-group">
-                <label for="soustitre">Sous-titre</label>
-                <input type="text" id="soustitre" value="" placeholder="Ex: Au programme de cette réunion 👇">
-            </div>
-
-            <hr class="divider">
-
-            <h3>Thèmes (max 4)</h3>
-            <div id="themes-container"></div>
-
-            <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
-
-            <hr class="divider">
-
-            <h3>🎨 Emojis disponibles</h3>
-            <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
-            <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;">
-                <!-- Les emojis seront générés par JS -->
-            </div>
-        </div>
-
-        <!-- APERÇU À DROITE -->
-        <div class="panel panel-right">
-            <h2>👁️ Aperçu</h2>
-            <div class="btn-actions">
-                <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
-                <button class="btn-pdf" onclick="telechargerPDF()">📥 Télécharger PDF</button>
-                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🌐 Géorgien</button>
-            </div>
-            <div id="preview" class="preview-container"></div>
-        </div>
         </div>
     </div>
 
     <script>
-        // Mot de passe
+        // Configuration
         const MOT_DE_PASSE = 'Azerty97';
-
-        // Langue actuelle
         let estEnGeorgien = false;
-        let cacheTraductions = {}; // Cache pour éviter les appels répétés
+        let themes = [];
 
-        async function traduireAvecGoogle(texte) {
-            if (!texte) return texte;
-            
-            // Vérifier le cache
-            if (cacheTraductions[texte]) {
-                return cacheTraductions[texte];
-            }
-            
-            try {
-                const response = await fetch(
-                    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texte)}&langpair=fr|ka`
-                );
-                const data = await response.json();
-                
-                if (data.responseStatus === 200) {
-                    const texteTraoduit = data.responseData.translatedText;
-                    cacheTraductions[texte] = texteTraoduit;
-                    return texteTraoduit;
-                }
-            } catch (error) {
-                console.error('Erreur traduction:', error);
-            }
-            
-            return texte; // Retourner l'original si erreur
+        const emojiCategories = {
+            '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅'],
+            '🍽️ Repas': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝'],
+            '🎨 Activités': ['🎨', '🎭', '🎬', '🎮', '📚', '⚽'],
+            '💊 Santé': ['💊', '🏥', '🩺', '💉', '👨‍⚕️', '😷'],
+            '🏠 Logement': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟'],
+            '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝']
+        };
+
+        // Traductions géorgiennes
+        const traductionsGeo = {
+            'RÉUNION RÉSIDENTS !': 'მოსახლეობის შეკრება !',
+            'Au programme de cette réunion 👇': 'დღევანდელი აგენდა 👇',
+            'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !'
+        };
+
+        function traduire(texte) {
+            return traductionsGeo[texte] || texte;
         }
-
-        async function traduireTexte(texte) {
-            return await traduireAvecGoogle(texte);
-        }
-
-        async function basculerGeorgien() {
-            estEnGeorgien = !estEnGeorgien;
-            const btn = document.getElementById('btn-translate');
-            
-            if (estEnGeorgien) {
-                btn.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
-                btn.innerHTML = '⏳ Traduction en cours...';
-                btn.disabled = true;
-            }
-            
-            await renderPreview();
-            
-            if (estEnGeorgien) {
-                btn.innerHTML = '🇫🇷 Français';
-                btn.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
-            } else {
-                btn.innerHTML = '🌐 Géorgien';
-                btn.style.background = 'linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%)';
-            }
-            btn.disabled = false;
-        }
-
-        // Mot de passe
 
         function verifierMotDePasse() {
             const inputPassword = document.getElementById('password-input').value;
@@ -603,41 +568,16 @@
             }
         }
 
-        // Afficher le login au démarrage
-        window.addEventListener('load', function() {
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('password-input').focus();
-        });
-
-        let themes = [];
-
-        const emojiCategories = {
-            '🧼 Hygiène & Bien-être': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🧸', '🚿'],
-            '🍽️ Repas & Alimentation': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕', '🥬', '🥖', '🍞', '☕', '🥛', '🍵'],
-            '🎨 Activités & Loisirs': ['🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾', '🏐', '🏊', '🚴', '🧗', '🎸', '🎵', '🎪', '🧩', '🎲'],
-            '💊 Santé & Médical': ['💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒'],
-            '🏠 Logement & Chambre': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️', '🪑', '🛌', '💡', '🔌'],
-            '💼 Travail & Emploi': ['💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔', '👞', '📞', '📧'],
-            '💬 Communication & Idées': ['💬', '💡', '📢', '🗣️', '👂', '📣', '✍️', '💭'],
-            '🚗 Transport & Mobilité': ['🚗', '🚌', '🚆', '🚇', '🚲', '🚶', '🛴', '🚕'],
-            '❤️ Émotions & Bien-être': ['❤️', '😊', '🙌', '👍', '💪', '😌', '🤗', '✨', '⭐', '🌟'],
-            '🔒 Sécurité & Règles': ['🔒', '📋', '⚠️', '✅', '❌', '📌', '🔑', '⏰'],
-            '🌍 Autres utiles': ['🌍', '🎯', '📈', '🎁', '🏆', '🌈', '☀️', '🌙', '⚡']
-        };
-
         function renderEmojis() {
             const palette = document.getElementById('emoji-palette');
             palette.innerHTML = '';
             
             Object.entries(emojiCategories).forEach(([category, emojis]) => {
-                // Titre de catégorie
                 const categoryTitle = document.createElement('div');
                 categoryTitle.style.cssText = 'grid-column: 1 / -1; margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: #333; border-bottom: 1px solid #e0e0e0; padding-bottom: 0.5rem;';
                 categoryTitle.innerHTML = category;
                 palette.appendChild(categoryTitle);
                 
-                // Emojis de la catégorie
                 emojis.forEach(emoji => {
                     const btn = document.createElement('button');
                     btn.className = 'emoji-btn';
@@ -703,26 +643,25 @@
             }
         }
 
-        async function renderPreview() {
+        function renderPreview() {
             let date = document.getElementById('date').value;
             let titre = document.getElementById('titre').value;
             let soustitre = document.getElementById('soustitre').value;
             
-            // Traduire si géorgien
             if (estEnGeorgien) {
-                date = await traduireTexte(date);
-                titre = await traduireTexte(titre);
-                soustitre = await traduireTexte(soustitre);
+                date = traduire(date) || date;
+                titre = traduire(titre) || titre;
+                soustitre = traduire(soustitre) || soustitre;
             }
             
             let themesHTML = '';
-            for (let t of themes) {
+            themes.forEach(t => {
                 let themeTitre = t.titre;
                 let themeDesc = t.desc;
                 
                 if (estEnGeorgien) {
-                    themeTitre = await traduireTexte(themeTitre);
-                    themeDesc = await traduireTexte(themeDesc);
+                    themeTitre = traduire(themeTitre) || themeTitre;
+                    themeDesc = traduire(themeDesc) || themeDesc;
                 }
                 
                 themesHTML += `
@@ -732,7 +671,7 @@
                         <p>${themeDesc}</p>
                     </div>
                 `;
-            }
+            });
 
             const themesSection = themes.length > 0 ? 
                 `<div class="preview-themes">${themesHTML}</div>` :
@@ -742,7 +681,7 @@
 
             let footerText = 'Ne manquez pas cette réunion importante ! 🎯';
             if (estEnGeorgien) {
-                footerText = await traduireTexte(footerText);
+                footerText = traduire(footerText) || footerText;
             }
 
             const html = `
@@ -759,6 +698,21 @@
             `;
             
             document.getElementById('preview').innerHTML = html;
+        }
+
+        function basculerGeorgien() {
+            estEnGeorgien = !estEnGeorgien;
+            const btn = document.getElementById('btn-translate');
+            
+            if (estEnGeorgien) {
+                btn.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
+                btn.innerHTML = '🇫🇷 FR';
+            } else {
+                btn.style.background = 'linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%)';
+                btn.innerHTML = '🌐 GEO';
+            }
+            
+            renderPreview();
         }
 
         function imprimerAffiche() {
@@ -780,12 +734,17 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // Event listeners pour mise à jour en temps réel
+        // Initialisation
+        window.addEventListener('load', function() {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('password-input').focus();
+        });
+
         document.getElementById('date').addEventListener('input', () => renderPreview());
         document.getElementById('titre').addEventListener('input', () => renderPreview());
         document.getElementById('soustitre').addEventListener('input', () => renderPreview());
 
-        // Initialiser
         renderThemes();
         updateAddButton();
         renderEmojis();
