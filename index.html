@@ -18,6 +18,22 @@
             padding: 2rem;
         }
 
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -68,7 +84,6 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 0.95rem;
-            transition: border-color 0.3s;
         }
 
         input[type="text"]:focus {
@@ -109,7 +124,6 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.85rem;
-            transition: background 0.3s;
         }
 
         .btn-remove:hover {
@@ -126,7 +140,6 @@
             font-weight: 600;
             cursor: pointer;
             font-size: 0.95rem;
-            transition: background 0.3s;
         }
 
         .btn-add:hover {
@@ -153,14 +166,6 @@
             font-weight: 600;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: transform 0.2s;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .btn-print:hover, .btn-pdf:hover, .btn-translate:hover {
-            transform: scale(1.02);
         }
 
         .btn-print {
@@ -173,6 +178,10 @@
 
         .btn-translate {
             background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+        }
+
+        .btn-print:hover, .btn-pdf:hover, .btn-translate:hover {
+            transform: scale(1.02);
         }
 
         .divider {
@@ -247,7 +256,6 @@
             margin: 0 0 0.5rem 0;
             font-size: 1.1rem;
             font-weight: bold;
-            color: white;
         }
 
         .theme-card p {
@@ -280,115 +288,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
         }
 
         .emoji-btn:hover {
             background: #f0f0f0;
             border-color: #4facfe;
             transform: scale(1.1);
-            box-shadow: 0 2px 6px rgba(79, 172, 254, 0.2);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        #login-screen {
-            width: 100%;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        #login-screen.hidden {
-            display: none;
-        }
-
-        .login-box {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-box div:first-child {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .login-box h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            color: #333;
-        }
-
-        .login-box p {
-            color: #666;
-            margin: 0.5rem 0 0 0;
-        }
-
-        .login-input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .login-input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .login-input-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .error-message {
-            display: none;
+        .emoji-category-title {
+            grid-column: 1 / -1;
             margin-top: 1rem;
-            padding: 0.8rem;
-            background: #fee;
-            border: 1px solid #fcc;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+        }
+
+        .empty-themes {
+            padding: 1rem;
+            background: #f0f7ff;
+            border: 1px solid #4facfe;
             border-radius: 6px;
-            color: #c33;
+            color: #666;
             text-align: center;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 1024px) {
@@ -412,11 +338,6 @@
             .btn-actions {
                 grid-template-columns: 1fr;
             }
-
-            .btn-print, .btn-pdf, .btn-translate {
-                font-size: 1rem;
-                padding: 1rem;
-            }
         }
 
         @media print {
@@ -439,15 +360,8 @@
                 justify-content: center;
             }
 
-            .header, .container, #login-screen {
+            .header, .container {
                 display: none;
-            }
-
-            #main-content {
-                display: block !important;
-                width: 100%;
-                height: 100%;
-                padding: 0;
             }
 
             .preview-container {
@@ -465,81 +379,62 @@
     </style>
 </head>
 <body>
-    <div id="login-screen">
-        <div class="login-box">
-            <div>
-                <div style="font-size: 3rem; margin-bottom: 1rem;">🔐</div>
-                <h1>Générateur d'Affiche</h1>
-                <p>Accès réservé aux collaborateurs</p>
-            </div>
-            
-            <div class="login-input-group">
-                <label>Mot de passe</label>
-                <input type="password" id="password-input" placeholder="Entrez le mot de passe" onkeypress="if(event.key==='Enter') verifierMotDePasse();">
-            </div>
-            
-            <button class="login-btn" onclick="verifierMotDePasse()">Accéder</button>
-            
-            <div id="error-message" class="error-message">Mot de passe incorrect</div>
-        </div>
+    <div class="header">
+        <h1>🎤 Générateur d'Affiche Réunion</h1>
+        <p>Personnalisez votre affiche pour chaque réunion résidents</p>
     </div>
 
-    <div id="main-content" style="display: none;">
-        <div class="header">
-            <h1>🎤 Générateur d'Affiche Réunion</h1>
-            <p>Personnalisez votre affiche pour chaque réunion résidents</p>
+    <div class="container">
+        <!-- FORMULAIRE À GAUCHE -->
+        <div class="panel panel-left">
+            <h2>⚙️ Personnalisez</h2>
+            
+            <div class="form-group">
+                <label for="date">📅 Date et Heure</label>
+                <input type="text" id="date" value="" placeholder="Ex: DEMAIN À 13H">
+            </div>
+
+            <div class="form-group">
+                <label for="titre">📝 Titre principal</label>
+                <input type="text" id="titre" value="" placeholder="Ex: RÉUNION RÉSIDENTS !">
+            </div>
+
+            <div class="form-group">
+                <label for="soustitre">Sous-titre</label>
+                <input type="text" id="soustitre" value="" placeholder="Ex: Au programme de cette réunion 👇">
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Thèmes (max 4)</h3>
+            <div id="themes-container"></div>
+
+            <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">🎨 Emojis disponibles</h3>
+            <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
+            <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;"></div>
         </div>
 
-        <div class="container">
-            <!-- FORMULAIRE À GAUCHE -->
-            <div class="panel panel-left">
-                <h2>⚙️ Personnalisez</h2>
-                
-                <div class="form-group">
-                    <label for="date">📅 Date et Heure</label>
-                    <input type="text" id="date" value="" placeholder="Ex: DEMAIN À 13H">
-                </div>
-
-                <div class="form-group">
-                    <label for="titre">📝 Titre principal</label>
-                    <input type="text" id="titre" value="" placeholder="Ex: RÉUNION RÉSIDENTS !">
-                </div>
-
-                <div class="form-group">
-                    <label for="soustitre">Sous-titre</label>
-                    <input type="text" id="soustitre" value="" placeholder="Ex: Au programme de cette réunion 👇">
-                </div>
-
-                <hr class="divider">
-
-                <h3>Thèmes (max 4)</h3>
-                <div id="themes-container"></div>
-
-                <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
-
-                <hr class="divider">
-
-                <h3>🎨 Emojis disponibles</h3>
-                <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
-                <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;"></div>
+        <!-- APERÇU À DROITE -->
+        <div class="panel panel-right">
+            <h2>👁️ Aperçu</h2>
+            <div class="btn-actions">
+                <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
+                <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
+                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🇬🇪 Géorgien</button>
             </div>
-
-            <!-- APERÇU À DROITE -->
-            <div class="panel panel-right">
-                <h2>👁️ Aperçu</h2>
-                <div class="btn-actions">
-                    <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
-                    <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
-                    <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🇬🇪 Géorgien</button>
-                </div>
-                <div id="preview" class="preview-container"></div>
-            </div>
+            <div id="preview" class="preview-container"></div>
         </div>
     </div>
 
     <script>
         // Configuration
-        const MOT_DE_PASSE = 'Azerty97';
+        let estEnGeorgien = false;
+        let themes = [];
+
         const couleursThemes = [
             'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
             'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -548,65 +443,22 @@
         ];
 
         const emojiCategories = {
-            '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅'],
-            '🍽️ Repas': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝'],
-            '🎨 Activités': ['🎨', '🎭', '🎬', '🎮', '📚', '⚽'],
-            '💊 Santé': ['💊', '🏥', '🩺', '💉', '👨‍⚕️', '😷'],
-            '🏠 Logement': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟'],
-            '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝']
+            '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🚿'],
+            '🍽️ Repas': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕'],
+            '🎨 Activités': ['🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾'],
+            '💊 Santé': ['💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒'],
+            '🏠 Logement': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️'],
+            '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔']
         };
 
-        // Traductions géorgiennes complètes
         const traductionsGeo = {
             'RÉUNION RÉSIDENTS !': 'მოსახლეობის შეკრება !',
             'Au programme de cette réunion 👇': 'დღევანდელი აგენდა 👇',
-            'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !',
-            'Hygiène & Espace': 'ჰიგიენა და სივრცე',
-            'Soi, la chambre, l\'aération...': 'თქვენი, ოთახი, ვენტილაცია...',
-            'Repas du Samedi': 'შაბათის კვამლი',
-            'Cuisinez avec nous !': 'მოაგვარეთ ჩვენთან !',
-            'Boîte à Idées': 'აზრების ყუთი',
-            'Parlez, proposez !': 'ისაუბრეთ, შემოთავაზეთ !',
-            'Activités': 'აქტივობები',
-            'Vos envies, vos intérêts': 'თქვენი სურვილები, თქვენი ინტერესები',
-            'DEMAIN À 13H': 'ხვალ 13:00 საათზე',
-            'Demain 13h': 'ხვალ 13:00',
-            'Nouveau thème': 'ახალი თემა',
-            'Description': 'აღწერა'
+            'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !'
         };
 
         function traduire(texte) {
-            if (!texte) return texte;
-            
-            // Chercher une traduction exacte
-            if (traductionsGeo[texte]) {
-                return traductionsGeo[texte];
-            }
-            
-            // Chercher une traduction partielle
-            for (let cle in traductionsGeo) {
-                if (texte.toLowerCase().includes(cle.toLowerCase())) {
-                    return traductionsGeo[cle];
-                }
-            }
-            
-            // Si pas de traduction, retourner le texte original
-            return texte;
-        }
-
-        function verifierMotDePasse() {
-            const inputPassword = document.getElementById('password-input').value;
-            const errorMessage = document.getElementById('error-message');
-            
-            if (inputPassword === MOT_DE_PASSE) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                errorMessage.style.display = 'none';
-            } else {
-                errorMessage.style.display = 'block';
-                document.getElementById('password-input').value = '';
-                document.getElementById('password-input').focus();
-            }
+            return traductionsGeo[texte] || texte;
         }
 
         function renderEmojis() {
@@ -615,7 +467,7 @@
             
             Object.entries(emojiCategories).forEach(([category, emojis]) => {
                 const categoryTitle = document.createElement('div');
-                categoryTitle.style.cssText = 'grid-column: 1 / -1; margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: #333; border-bottom: 1px solid #e0e0e0; padding-bottom: 0.5rem;';
+                categoryTitle.className = 'emoji-category-title';
                 categoryTitle.innerHTML = category;
                 palette.appendChild(categoryTitle);
                 
@@ -623,7 +475,7 @@
                     const btn = document.createElement('button');
                     btn.className = 'emoji-btn';
                     btn.innerHTML = emoji;
-                    btn.style.gridColumn = 'auto';
+                    btn.type = 'button';
                     btn.onclick = (e) => {
                         e.preventDefault();
                         navigator.clipboard.writeText(emoji).then(() => {
@@ -646,7 +498,7 @@
             
             if (themes.length === 0) {
                 const emptyMsg = document.createElement('div');
-                emptyMsg.style.cssText = 'padding: 1rem; background: #f0f7ff; border: 1px solid #4facfe; border-radius: 6px; color: #666; text-align: center; font-size: 0.9rem;';
+                emptyMsg.className = 'empty-themes';
                 emptyMsg.innerHTML = '📝 Cliquez sur "+ Ajouter un thème" pour commencer';
                 container.appendChild(emptyMsg);
                 return;
@@ -659,7 +511,7 @@
                 div.innerHTML = `
                     <div class="theme-header">
                         <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; renderPreview();">
-                        <button class="btn-remove" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
+                        <button class="btn-remove" type="button" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
                     </div>
                     <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; renderPreview();">
                     <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; renderPreview();">
@@ -734,10 +586,10 @@
             const html = `
                 <div class="preview-header">
                     <div class="preview-header-icon">🎤</div>
-                    <h1>${titre}</h1>
-                    <p>📅 ${date}</p>
+                    <h1>${titre || 'Titre'}</h1>
+                    <p>📅 ${date || 'Date'}</p>
                 </div>
-                <div class="preview-subtitle">${soustitre}</div>
+                <div class="preview-subtitle">${soustitre || 'Sous-titre'}</div>
                 ${themesSection}
                 <div class="preview-footer">
                     <p>${footerText}</p>
@@ -782,12 +634,6 @@
         }
 
         // Initialisation
-        window.addEventListener('load', function() {
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('password-input').focus();
-        });
-
         document.getElementById('date').addEventListener('input', () => renderPreview());
         document.getElementById('titre').addEventListener('input', () => renderPreview());
         document.getElementById('soustitre').addEventListener('input', () => renderPreview());
