@@ -199,29 +199,35 @@
 
         .preview-header {
             background: linear-gradient(90deg, #FF6B6B 0%, #FF8E53 25%, #FFC93D 50%, #4ECDC4 75%, #45B7D1 100%);
-            padding: 1.2rem;
+            padding: 0.8rem 1.2rem;
             text-align: center;
             color: white;
+            overflow: hidden;
         }
 
         .preview-header-icon {
-            font-size: 3rem;
-            margin-bottom: 0.3rem;
+            font-size: 2.5rem;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            display: block;
         }
 
         .preview-header h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
             letter-spacing: 2px;
-            margin: 0;
+            margin: 0.3rem 0 0 0;
+            padding: 0;
         }
 
         .preview-header p {
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 600;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            margin: 0.5rem 0 0 0;
+            margin: 0.3rem 0 0 0;
+            padding: 0;
         }
 
         .preview-subtitle {
@@ -236,31 +242,31 @@
 
         .preview-themes {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 0.8rem;
             padding: 1.2rem;
         }
 
         .theme-card {
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 0.8rem;
+            border-radius: 10px;
             color: white;
         }
 
         .theme-card-icon {
-            font-size: 2rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
         }
 
         .theme-card h3 {
-            margin: 0 0 0.3rem 0;
-            font-size: 0.95rem;
+            margin: 0 0 0.2rem 0;
+            font-size: 0.9rem;
             font-weight: bold;
         }
 
         .theme-card p {
             margin: 0;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             opacity: 0.95;
         }
 
@@ -393,6 +399,7 @@
             }
 
             .preview-themes {
+                grid-template-columns: 1fr 1fr 1fr !important;
                 gap: 0.6rem !important;
                 padding: 1rem !important;
             }
@@ -456,7 +463,7 @@
 
             <hr class="divider">
 
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Thèmes (max 4)</h3>
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Thèmes (max 6)</h3>
             <div id="themes-container"></div>
 
             <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
@@ -489,7 +496,9 @@
             'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
             'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            'linear-gradient(135deg, #30b0fe 0%, #5fc7eb 100%)'
         ];
 
         const emojiCategories = {
@@ -575,11 +584,11 @@
 
         function updateAddButton() {
             const btn = document.getElementById('btn-add');
-            btn.disabled = themes.length >= 4;
+            btn.disabled = themes.length >= 6;
         }
 
         function ajouterTheme() {
-            if (themes.length < 4) {
+            if (themes.length < 6) {
                 const couleurIndex = themes.length % couleursThemes.length;
                 themes.push({ 
                     emoji: '⭐', 
