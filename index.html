@@ -358,7 +358,7 @@
                 padding: 0;
                 margin: 0;
                 background: white;
-                font-size: 10pt;
+                font-size: 12pt;
             }
 
             body {
@@ -379,53 +379,69 @@
                 overflow: hidden !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
             }
 
             .preview-header {
-                padding: 1rem !important;
+                padding: 1.5rem 2rem !important;
+                flex-shrink: 0;
             }
 
             .preview-header h1 {
-                font-size: 1.8rem !important;
+                font-size: 2.8rem !important;
+                margin: 0.4rem 0 0 0 !important;
             }
 
             .preview-header p {
-                font-size: 0.9rem !important;
+                font-size: 1.1rem !important;
+                margin: 0.4rem 0 0 0 !important;
+            }
+
+            .preview-header-icon {
+                font-size: 3.2rem !important;
             }
 
             .preview-subtitle {
-                padding: 0.8rem !important;
-                font-size: 0.85rem !important;
+                padding: 1.2rem 2rem !important;
+                font-size: 1.1rem !important;
+                flex-shrink: 0;
             }
 
             .preview-themes {
                 grid-template-columns: 1fr 1fr 1fr !important;
-                gap: 0.6rem !important;
-                padding: 1rem !important;
+                gap: 1rem !important;
+                padding: 1.5rem 2rem !important;
+                flex: 1;
+                overflow: hidden;
             }
 
             .theme-card {
-                padding: 0.8rem !important;
+                padding: 1.2rem !important;
+                border-radius: 12px !important;
             }
 
             .theme-card-icon {
-                font-size: 1.8rem !important;
+                font-size: 2.4rem !important;
+                margin-bottom: 0.4rem !important;
             }
 
             .theme-card h3 {
-                font-size: 0.85rem !important;
+                font-size: 1.1rem !important;
+                margin: 0 0 0.4rem 0 !important;
             }
 
             .theme-card p {
-                font-size: 0.7rem !important;
+                font-size: 0.9rem !important;
             }
 
             .preview-footer {
-                padding: 0.6rem !important;
+                padding: 1rem 2rem !important;
+                flex-shrink: 0;
             }
 
             .preview-footer p {
-                font-size: 0.7rem !important;
+                font-size: 0.95rem !important;
             }
 
             @page {
