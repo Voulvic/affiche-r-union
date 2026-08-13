@@ -540,8 +540,12 @@
     <script>
         // Configuration
         const MOT_DE_PASSE = 'Azerty97';
-        let estEnGeorgien = false;
-        let themes = [];
+        const couleursThemes = [
+            'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
+            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+        ];
 
         const emojiCategories = {
             '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅'],
@@ -653,12 +657,17 @@
                 div.className = 'theme-item';
                 
                 div.innerHTML = `
-                    <div class="theme-header">
-                        <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; renderPreview();">
-                        <button class="btn-remove" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
+                    <div style="display: flex; gap: 0.8rem; margin-bottom: 0.8rem; align-items: flex-start;">
+                        <div style="background: ${theme.couleur}; width: 50px; height: 50px; border-radius: 6px; flex-shrink: 0;"></div>
+                        <div style="flex: 1;">
+                            <div class="theme-header" style="margin-bottom: 0.8rem;">
+                                <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; renderPreview();">
+                                <button class="btn-remove" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
+                            </div>
+                            <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; renderPreview();">
+                            <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; renderPreview();">
+                        </div>
                     </div>
-                    <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; renderPreview();">
-                    <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; renderPreview();">
                 `;
                 
                 container.appendChild(div);
@@ -674,7 +683,13 @@
 
         function ajouterTheme() {
             if (themes.length < 4) {
-                themes.push({ emoji: '⭐', titre: 'Nouveau thème', desc: 'Description', couleur: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' });
+                const couleurIndex = themes.length % couleursThemes.length;
+                themes.push({ 
+                    emoji: '⭐', 
+                    titre: 'Nouveau thème', 
+                    desc: 'Description', 
+                    couleur: couleursThemes[couleurIndex]
+                });
                 renderThemes();
                 renderPreview();
             }
