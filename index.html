@@ -353,8 +353,8 @@
             }
 
             html, body {
-                width: 210mm;
-                height: 297mm;
+                width: 297mm;
+                height: 210mm;
                 padding: 0;
                 margin: 0;
                 background: white;
@@ -372,8 +372,8 @@
             .preview-container {
                 box-shadow: none !important;
                 border-radius: 0 !important;
-                width: 210mm !important;
-                height: 297mm !important;
+                width: 297mm !important;
+                height: 210mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 display: flex !important;
@@ -412,7 +412,7 @@
 
             .preview-themes {
                 grid-template-columns: 1fr 1fr 1fr !important;
-                grid-auto-rows: minmax(50mm, 1fr) !important;
+                grid-auto-rows: minmax(40mm, 1fr) !important;
                 gap: 6mm !important;
                 padding: 8mm 8mm !important;
                 flex: 1;
@@ -460,7 +460,7 @@
             }
 
             @page {
-                size: A4 portrait;
+                size: A4 landscape;
                 margin: 0;
             }
         }
