@@ -717,7 +717,7 @@
                 filename: titre + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { format: 'a4', orientation: 'portrait' }
+                jsPDF: { format: 'a4', orientation: 'landscape' }
             };
             
             html2pdf().set(opt).from(element).save();
