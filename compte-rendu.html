@@ -120,6 +120,14 @@
             min-height: 80px;
         }
 
+        input[type="text"]::placeholder,
+        input[type="date"]::placeholder,
+        textarea::placeholder {
+            color: #999;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
         input[type="text"]:focus,
         input[type="date"]:focus,
         textarea:focus {
@@ -469,7 +477,6 @@
                     <div class="preview-section">
                         <h3>${section.titre}</h3>
                         ${section.objectifs ? `<div class="preview-section-content">
-                            <div class="preview-section-label" style="color: #667eea;">Détails du thème</div>
                             <div class="preview-section-text">${section.objectifs}</div>
                         </div>` : ''}
                         ${section.notes ? `<div class="preview-section-content">
