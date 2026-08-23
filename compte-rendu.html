@@ -431,11 +431,11 @@
         let sections = [];
 
         const defaultSections = [
-            { titre: "À remplir", objectifs: "À remplir", notes: "" },
-            { titre: "À remplir", objectifs: "À remplir", notes: "" },
-            { titre: "À remplir", objectifs: "À remplir", notes: "" },
-            { titre: "À remplir", objectifs: "À remplir", notes: "" },
-            { titre: "À remplir", objectifs: "À remplir", notes: "" }
+            { titre: "", objectifs: "", notes: "" },
+            { titre: "", objectifs: "", notes: "" },
+            { titre: "", objectifs: "", notes: "" },
+            { titre: "", objectifs: "", notes: "" },
+            { titre: "", objectifs: "", notes: "" }
         ];
 
         function renderSections() {
@@ -452,7 +452,7 @@
                         <button class="btn-remove" onclick="sections.splice(${index}, 1); renderSections(); renderPreview();">Retirer</button>
                     </div>
                     <input type="text" value="${section.titre}" placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; font-weight: 600;" onchange="sections[${index}].titre = this.value; renderPreview();">
-                    <textarea placeholder="Détails du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; min-height: 60px;" onchange="sections[${index}].objectifs = this.value; renderPreview();">${section.objectifs}</textarea>
+                    <textarea placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; min-height: 60px;" onchange="sections[${index}].objectifs = this.value; renderPreview();">${section.objectifs}</textarea>
                     <textarea placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem; min-height: 60px;" onchange="sections[${index}].notes = this.value; renderPreview();">${section.notes}</textarea>
                 `;
                 
