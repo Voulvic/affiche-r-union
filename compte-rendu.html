@@ -440,7 +440,7 @@
                         <button class="btn-remove" onclick="sections.splice(${index}, 1); renderSections(); renderPreview();">Retirer</button>
                     </div>
                     <input type="text" value="${section.titre}" placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; font-weight: 600;" onchange="sections[${index}].titre = this.value; renderPreview();">
-                    <textarea placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; min-height: 60px;" onchange="sections[${index}].objectifs = this.value; renderPreview();">${section.objectifs}</textarea>
+                    <textarea placeholder="Remarques / Échanges" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; min-height: 60px;" onchange="sections[${index}].objectifs = this.value; renderPreview();">${section.objectifs}</textarea>
                     <textarea placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem; min-height: 60px;" onchange="sections[${index}].notes = this.value; renderPreview();">${section.notes}</textarea>
                 `;
                 
@@ -465,7 +465,7 @@
                     <div class="preview-section">
                         <h3>${section.titre}</h3>
                         ${section.objectifs ? `<div class="preview-section-content">
-                            <div class="preview-section-label">Objectifs</div>
+                            <div class="preview-section-label">Remarques / Échanges</div>
                             <div class="preview-section-text">${section.objectifs}</div>
                         </div>` : ''}
                         ${section.notes ? `<div class="preview-section-content">
@@ -486,11 +486,11 @@
                         </div>
                         <div class="preview-info-item">
                             <div class="preview-info-label">👥 Résidents présents</div>
-                            <div>${residents ? residents.split('\n').length : 0} résident(s)</div>
+                            <div>${residents || 'À remplir'}</div>
                         </div>
                         <div class="preview-info-item">
                             <div class="preview-info-label">👔 Professionnels présents</div>
-                            <div>${professionnels ? professionnels.split('\n').length : 0} professionnel(s)</div>
+                            <div>${professionnels || 'À remplir'}</div>
                         </div>
                     </div>
                 </div>
