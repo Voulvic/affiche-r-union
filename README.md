@@ -1,4 +1,4 @@
-# 🎤 Générateur d'Affiche Réunion Résidents
+# 🎤 Générateur d'Affiche Réunion Résidents / 📋 Générateur de Compte-Rendu
 
 Un outil simple et intuitif pour créer des affiches de réunion personnalisées.
 
@@ -6,9 +6,9 @@ Un outil simple et intuitif pour créer des affiches de réunion personnalisées
 
 ✅ Personnalisez la date et l'heure
 ✅ Changez le titre et le sous-titre
-✅ Ajoutez jusqu'à 4 thèmes avec emoji, titre et description
+✅ Ajoutez des thèmes avec emoji, titre et description
 ✅ Aperçu en temps réel
-✅ Responsive (fonctionne sur mobile, tablette, ordinateur)
+
 
 ## 📝 Utilisation
 
@@ -23,15 +23,9 @@ Un outil simple et intuitif pour créer des affiches de réunion personnalisées
 
 ## 🎨 Personnalisation
 
-Les couleurs et emojis par défaut sont :
-- 🧼 Hygiène & Espace (violet)
-- 👨‍🍳 Repas du Samedi (rose-rouge)
-- 💌 Boîte à Idées (bleu clair)
-- 🎨 Activités (rose-jaune)
+
 
 Vous pouvez changer tous les emojis et couleurs directement dans l'application !
 L'outil s'adapte parfaitement à :
 - 💻 Ordinateur
-- 📱 Mobile
-- 📊 Tablette
 
