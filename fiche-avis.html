@@ -128,20 +128,49 @@
             font-style: italic;
         }
 
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .section-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 1rem;
         }
 
-        .checkbox-item {
+        .section-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 0.8rem;
         }
 
-        input[type="checkbox"] {
-            margin-right: 0.5rem;
+        .btn-remove {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-remove:hover {
+            background: #ff5252;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 0.8rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-add:hover {
+            background: #2e8fd6;
         }
 
         .btn-actions {
@@ -203,24 +232,36 @@
         .preview-header p {
             font-size: 0.9rem;
             color: #666;
+            margin-bottom: 0.3rem;
+        }
+
+        .preview-intro {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .preview-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            page-break-inside: avoid;
         }
 
         .preview-section h3 {
             font-size: 1rem;
             color: #667eea;
             margin-bottom: 0.8rem;
+            border-left: 4px solid #667eea;
+            padding-left: 0.8rem;
             font-weight: bold;
         }
 
-        .preview-section p {
-            font-size: 0.9rem;
-            color: #333;
-            line-height: 1.6;
-            white-space: pre-wrap;
+        .preview-section-content {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+            min-height: 100px;
+            line-height: 1.8;
         }
 
         @media (max-width: 1024px) {
@@ -262,13 +303,13 @@
                 border-radius: 0 !important;
                 width: 100% !important;
                 height: 100% !important;
-                padding: 1.2rem !important;
+                padding: 0.8rem !important;
                 font-size: 11px;
             }
 
             .preview-header {
-                margin-bottom: 1rem !important;
-                padding-bottom: 0.8rem !important;
+                margin-bottom: 0.6rem !important;
+                padding-bottom: 0.5rem !important;
             }
 
             .preview-header h1 {
@@ -279,22 +320,28 @@
                 font-size: 0.8rem !important;
             }
 
+            .preview-intro {
+                font-size: 0.75rem !important;
+            }
+
             .preview-section {
                 margin-bottom: 0.8rem !important;
             }
 
             .preview-section h3 {
-                font-size: 0.9rem !important;
-                margin-bottom: 0.4rem !important;
+                font-size: 0.95rem !important;
+                margin-bottom: 0.2rem !important;
             }
 
-            .preview-section p {
+            .preview-section-content {
+                padding: 0.4rem !important;
+                min-height: 80px;
                 font-size: 0.8rem !important;
             }
 
             @page {
                 size: A4 portrait;
-                margin: 10mm;
+                margin: 35mm 5mm 5mm 5mm;
             }
         }
     </style>
@@ -314,97 +361,19 @@
     <div class="container">
         <!-- FORMULAIRE À GAUCHE -->
         <div class="panel panel-left">
-            <h2>⚙️ Remplissez la fiche</h2>
+            <h2>⚙️ Informations</h2>
             
             <div class="form-group">
                 <label for="date">📅 Date de la réunion</label>
                 <input type="date" id="date">
             </div>
 
-            <div class="form-group">
-                <label for="nom">Nom / Prénom (facultatif)</label>
-                <input type="text" id="nom" placeholder="À remplir">
-            </div>
-
             <hr class="divider">
 
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">1. Votre avis sur la réunion</h3>
-            
-            <div class="form-group">
-                <label>Comment avez-vous trouvé cette réunion ?</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="radio" id="avis1" name="avis" value="Très intéressante" onchange="renderPreview()">
-                        <label for="avis1" style="margin-bottom: 0;">Très intéressante</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="avis2" name="avis" value="Intéressante" onchange="renderPreview()">
-                        <label for="avis2" style="margin-bottom: 0;">Intéressante</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="avis3" name="avis" value="Moyenne" onchange="renderPreview()">
-                        <label for="avis3" style="margin-bottom: 0;">Moyenne</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="avis4" name="avis" value="Peu intéressante" onchange="renderPreview()">
-                        <label for="avis4" style="margin-bottom: 0;">Peu intéressante</label>
-                    </div>
-                </div>
-            </div>
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📝 Sujets abordés</h3>
+            <div id="sections-container"></div>
 
-            <div class="form-group">
-                <label for="avisPourquoi">Pourquoi ?</label>
-                <textarea id="avisPourquoi" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <hr class="divider">
-
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">2. Les sujets abordés</h3>
-
-            <div class="form-group">
-                <label for="sujet">Quel sujet vous a le plus intéressé ?</label>
-                <textarea id="sujet" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="sujetPourquoi">Pourquoi ce sujet vous a-t-il intéressé ?</label>
-                <textarea id="sujetPourquoi" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <hr class="divider">
-
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">3. Votre avis / vos remarques</h3>
-            <div class="form-group">
-                <textarea id="remarques" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <hr class="divider">
-
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">4. Vos questions</h3>
-            <div class="form-group">
-                <textarea id="questions" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <hr class="divider">
-
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">5. Vos idées et propositions</h3>
-            <div class="form-group">
-                <label>Y a-t-il des choses que vous aimeriez voir changer ou améliorer ?</label>
-                <textarea id="ameliorations" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Avez-vous une idée d'activité, de sortie ou de repas ?</label>
-                <textarea id="activites" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
-
-            <hr class="divider">
-
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">6. Pour les prochaines réunions</h3>
-            <div class="form-group">
-                <label>Quels sujets aimeriez-vous aborder lors de la prochaine réunion ?</label>
-                <textarea id="prochains" placeholder="À remplir" onchange="renderPreview()"></textarea>
-            </div>
+            <button class="btn-add" onclick="ajouterSection()">+ Ajouter un sujet</button>
         </div>
 
         <!-- APERÇU À DROITE -->
@@ -419,62 +388,62 @@
     </div>
 
     <script>
+        let sections = [];
+
+        function renderSections() {
+            const container = document.getElementById('sections-container');
+            container.innerHTML = '';
+            
+            sections.forEach((section, index) => {
+                const div = document.createElement('div');
+                div.className = 'section-item';
+                
+                div.innerHTML = `
+                    <div class="section-header">
+                        <h4 style="margin: 0;">Sujet ${index + 1}</h4>
+                        <button class="btn-remove" onclick="sections.splice(${index}, 1); renderSections(); renderPreview();">Retirer</button>
+                    </div>
+                    <input type="text" value="${section.titre}" placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; font-weight: 600;" onchange="sections[${index}].titre = this.value; renderPreview();">
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        function ajouterSection() {
+            sections.push({ titre: "" });
+            renderSections();
+            renderPreview();
+        }
+
         function renderPreview() {
             const date = document.getElementById('date').value || 'À remplir';
-            const nom = document.getElementById('nom').value || '(Anonyme)';
-            
-            const avis = document.querySelector('input[name="avis"]:checked');
-            const avisValue = avis ? avis.value : '';
-            const avisPourquoi = document.getElementById('avisPourquoi').value;
 
-            const sujet = document.getElementById('sujet').value;
-            const sujetPourquoi = document.getElementById('sujetPourquoi').value;
-
-            const remarques = document.getElementById('remarques').value;
-            const questions = document.getElementById('questions').value;
-            const ameliorations = document.getElementById('ameliorations').value;
-            const activites = document.getElementById('activites').value;
-            const prochains = document.getElementById('prochains').value;
+            let sectionsHTML = '';
+            sections.forEach((section, index) => {
+                sectionsHTML += `
+                    <div class="preview-section">
+                        <h3>${index + 1}. ${section.titre || 'À remplir'}</h3>
+                        <div class="preview-section-content">
+                            Votre avis sur ce sujet : ......................................................................
+                        </div>
+                    </div>
+                `;
+            });
 
             const html = `
                 <div class="preview-header">
                     <h1>FICHE D'AVIS - RÉUNION DES RÉSIDENTS</h1>
                     <p>Date de la réunion : ${date}</p>
-                    <p>Nom / Prénom : ${nom}</p>
+                    <p>Vous pouvez la remplir avec ou sans votre nom.</p>
+                    <p>Nom / Prénom (facultatif) : ......................................................................</p>
+                </div>
+                
+                <div class="preview-intro">
+                    Cette fiche vous permet de donner votre avis sur les sujets abordés lors de la réunion, de poser une question ou de proposer une idée.
                 </div>
 
-                <div class="preview-section">
-                    <h3>1. Votre avis sur la réunion</h3>
-                    <p><strong>Comment avez-vous trouvé cette réunion ?</strong><br>${avisValue || 'À remplir'}</p>
-                    <p><strong>Pourquoi ?</strong><br>${avisPourquoi || 'À remplir'}</p>
-                </div>
-
-                <div class="preview-section">
-                    <h3>2. Les sujets abordés</h3>
-                    <p><strong>Quel sujet vous a le plus intéressé ?</strong><br>${sujet || 'À remplir'}</p>
-                    <p><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong><br>${sujetPourquoi || 'À remplir'}</p>
-                </div>
-
-                <div class="preview-section">
-                    <h3>3. Votre avis / vos remarques</h3>
-                    <p>${remarques || 'À remplir'}</p>
-                </div>
-
-                <div class="preview-section">
-                    <h3>4. Vos questions</h3>
-                    <p>${questions || 'À remplir'}</p>
-                </div>
-
-                <div class="preview-section">
-                    <h3>5. Vos idées et propositions</h3>
-                    <p><strong>Y a-t-il des choses que vous aimeriez voir changer ou améliorer ?</strong><br>${ameliorations || 'À remplir'}</p>
-                    <p><strong>Avez-vous une idée d'activité, de sortie ou de repas ?</strong><br>${activites || 'À remplir'}</p>
-                </div>
-
-                <div class="preview-section">
-                    <h3>6. Pour les prochaines réunions</h3>
-                    <p>${prochains || 'À remplir'}</p>
-                </div>
+                ${sectionsHTML}
             `;
             
             document.getElementById('preview').innerHTML = html;
@@ -501,14 +470,10 @@
 
         // Initialisation
         document.getElementById('date').addEventListener('change', () => renderPreview());
-        document.getElementById('nom').addEventListener('input', () => renderPreview());
-        document.getElementById('sujet').addEventListener('input', () => renderPreview());
-        document.getElementById('remarques').addEventListener('input', () => renderPreview());
-        document.getElementById('questions').addEventListener('input', () => renderPreview());
-        document.getElementById('ameliorations').addEventListener('input', () => renderPreview());
-        document.getElementById('activites').addEventListener('input', () => renderPreview());
-        document.getElementById('prochains').addEventListener('input', () => renderPreview());
 
+        // Ajouter 3 sujets vides par défaut
+        sections = [{ titre: "" }, { titre: "" }, { titre: "" }];
+        renderSections();
         renderPreview();
     </script>
 </body>
