@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Fiche d'Avis Résident</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .nav-buttons {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: #2e8fd6;
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .panel-left {
+            height: fit-content;
+        }
+
+        .panel-right {
+            position: sticky;
+            top: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 0.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: 'Arial', sans-serif;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="date"]::placeholder,
+        textarea::placeholder {
+            color: #999;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .btn-print, .btn-pdf {
+            padding: 0.8rem 1rem;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-print:hover, .btn-pdf:hover {
+            transform: scale(1.02);
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+
+        .preview-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 2rem;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .preview-header h1 {
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-header p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .preview-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-section h3 {
+            font-size: 1rem;
+            color: #667eea;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+
+        .preview-section p {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-right {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media print {
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            html, body {
+                width: 210mm;
+                height: 297mm;
+                padding: 0;
+                margin: 0;
+                background: white;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            .header, .container, .nav-buttons {
+                display: none !important;
+            }
+
+            .preview-container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                padding: 1.2rem !important;
+                font-size: 11px;
+            }
+
+            .preview-header {
+                margin-bottom: 1rem !important;
+                padding-bottom: 0.8rem !important;
+            }
+
+            .preview-header h1 {
+                font-size: 1.3rem !important;
+            }
+
+            .preview-header p {
+                font-size: 0.8rem !important;
+            }
+
+            .preview-section {
+                margin-bottom: 0.8rem !important;
+            }
+
+            .preview-section h3 {
+                font-size: 0.9rem !important;
+                margin-bottom: 0.4rem !important;
+            }
+
+            .preview-section p {
+                font-size: 0.8rem !important;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📝 Fiche d'Avis Résident</h1>
+        <p>Collectez facilement les avis des résidents après chaque réunion</p>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="index.html" class="nav-btn">🎤 Affiche Réunion</a>
+        <a href="compte-rendu.html" class="nav-btn">📋 Compte-Rendu</a>
+        <a href="fiche-avis.html" class="nav-btn active">📝 Fiche d'Avis</a>
+    </div>
+
+    <div class="container">
+        <!-- FORMULAIRE À GAUCHE -->
+        <div class="panel panel-left">
+            <h2>⚙️ Remplissez la fiche</h2>
+            
+            <div class="form-group">
+                <label for="date">📅 Date de la réunion</label>
+                <input type="date" id="date">
+            </div>
+
+            <div class="form-group">
+                <label for="nom">Nom / Prénom (facultatif)</label>
+                <input type="text" id="nom" placeholder="À remplir">
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">1. Votre avis sur la réunion</h3>
+            
+            <div class="form-group">
+                <label>Comment avez-vous trouvé cette réunion ?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" id="avis1" name="avis" value="Très intéressante" onchange="renderPreview()">
+                        <label for="avis1" style="margin-bottom: 0;">Très intéressante</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="avis2" name="avis" value="Intéressante" onchange="renderPreview()">
+                        <label for="avis2" style="margin-bottom: 0;">Intéressante</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="avis3" name="avis" value="Moyenne" onchange="renderPreview()">
+                        <label for="avis3" style="margin-bottom: 0;">Moyenne</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="avis4" name="avis" value="Peu intéressante" onchange="renderPreview()">
+                        <label for="avis4" style="margin-bottom: 0;">Peu intéressante</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="avisPourquoi">Pourquoi ?</label>
+                <textarea id="avisPourquoi" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">2. Les sujets abordés</h3>
+
+            <div class="form-group">
+                <label>Quel sujet vous a le plus intéressé ?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" id="sujet1" name="sujet" value="Les idées évoquées lors du CVS" onchange="renderPreview()">
+                        <label for="sujet1" style="margin-bottom: 0;">Les idées évoquées lors du CVS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="sujet2" name="sujet" value="L'hygiène et l'entretien de la chambre" onchange="renderPreview()">
+                        <label for="sujet2" style="margin-bottom: 0;">L'hygiène et l'entretien de la chambre</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="sujet3" name="sujet" value="Les repas du samedi" onchange="renderPreview()">
+                        <label for="sujet3" style="margin-bottom: 0;">Les repas du samedi</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="sujet4" name="sujet" value="La boîte à idées / plaintes et réclamations" onchange="renderPreview()">
+                        <label for="sujet4" style="margin-bottom: 0;">La boîte à idées / plaintes et réclamations</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="sujet5" name="sujet" value="Les activités et sorties" onchange="renderPreview()">
+                        <label for="sujet5" style="margin-bottom: 0;">Les activités et sorties</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="sujetPourquoi">Pourquoi ce sujet vous a-t-il intéressé ?</label>
+                <textarea id="sujetPourquoi" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">3. Votre avis / vos remarques</h3>
+            <div class="form-group">
+                <textarea id="remarques" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">4. Vos questions</h3>
+            <div class="form-group">
+                <textarea id="questions" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">5. Vos idées et propositions</h3>
+            <div class="form-group">
+                <label>Y a-t-il des choses que vous aimeriez voir changer ou améliorer ?</label>
+                <textarea id="ameliorations" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Avez-vous une idée d'activité, de sortie ou de repas ?</label>
+                <textarea id="activites" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">6. Pour les prochaines réunions</h3>
+            <div class="form-group">
+                <label>Quels sujets aimeriez-vous aborder lors de la prochaine réunion ?</label>
+                <textarea id="prochains" placeholder="À remplir" onchange="renderPreview()"></textarea>
+            </div>
+        </div>
+
+        <!-- APERÇU À DROITE -->
+        <div class="panel panel-right">
+            <h2>👁️ Aperçu</h2>
+            <div class="btn-actions">
+                <button class="btn-print" onclick="imprimerFiche()">🖨️ Imprimer</button>
+                <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
+            </div>
+            <div id="preview" class="preview-container"></div>
+        </div>
+    </div>
+
+    <script>
+        function renderPreview() {
+            const date = document.getElementById('date').value || 'À remplir';
+            const nom = document.getElementById('nom').value || '(Anonyme)';
+            
+            const avis = document.querySelector('input[name="avis"]:checked');
+            const avisValue = avis ? avis.value : 'À remplir';
+            const avisPourquoi = document.getElementById('avisPourquoi').value;
+
+            const sujet = document.querySelector('input[name="sujet"]:checked');
+            const sujetValue = sujet ? sujet.value : 'À remplir';
+            const sujetPourquoi = document.getElementById('sujetPourquoi').value;
+
+            const remarques = document.getElementById('remarques').value;
+            const questions = document.getElementById('questions').value;
+            const ameliorations = document.getElementById('ameliorations').value;
+            const activites = document.getElementById('activites').value;
+            const prochains = document.getElementById('prochains').value;
+
+            const html = `
+                <div class="preview-header">
+                    <h1>FICHE D'AVIS - RÉUNION DES RÉSIDENTS</h1>
+                    <p>Date de la réunion : ${date}</p>
+                    <p>Nom / Prénom : ${nom}</p>
+                </div>
+
+                <div class="preview-section">
+                    <h3>1. Votre avis sur la réunion</h3>
+                    <p><strong>Comment avez-vous trouvé cette réunion ?</strong><br>${avisValue}</p>
+                    ${avisPourquoi ? `<p><strong>Pourquoi ?</strong><br>${avisPourquoi}</p>` : ''}
+                </div>
+
+                <div class="preview-section">
+                    <h3>2. Les sujets abordés</h3>
+                    <p><strong>Quel sujet vous a le plus intéressé ?</strong><br>${sujetValue}</p>
+                    ${sujetPourquoi ? `<p><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong><br>${sujetPourquoi}</p>` : ''}
+                </div>
+
+                ${remarques ? `<div class="preview-section">
+                    <h3>3. Votre avis / vos remarques</h3>
+                    <p>${remarques}</p>
+                </div>` : ''}
+
+                ${questions ? `<div class="preview-section">
+                    <h3>4. Vos questions</h3>
+                    <p>${questions}</p>
+                </div>` : ''}
+
+                ${ameliorations || activites ? `<div class="preview-section">
+                    <h3>5. Vos idées et propositions</h3>
+                    ${ameliorations ? `<p><strong>Changements / Améliorations :</strong><br>${ameliorations}</p>` : ''}
+                    ${activites ? `<p><strong>Idées d'activités, sorties ou repas :</strong><br>${activites}</p>` : ''}
+                </div>` : ''}
+
+                ${prochains ? `<div class="preview-section">
+                    <h3>6. Pour les prochaines réunions</h3>
+                    <p>${prochains}</p>
+                </div>` : ''}
+            `;
+            
+            document.getElementById('preview').innerHTML = html;
+        }
+
+        function imprimerFiche() {
+            window.print();
+        }
+
+        function telechargerPDF() {
+            const date = document.getElementById('date').value || 'Fiche-avis';
+            const element = document.getElementById('preview');
+            
+            const opt = {
+                margin: 0,
+                filename: `Fiche-avis_${date}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Initialisation
+        document.getElementById('date').addEventListener('change', () => renderPreview());
+        document.getElementById('nom').addEventListener('input', () => renderPreview());
+
+        renderPreview();
+    </script>
+</body>
+</html>
