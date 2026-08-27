@@ -386,6 +386,7 @@
             <div id="sections-container"></div>
 
             <button class="btn-add" onclick="ajouterSection()">+ Ajouter un sujet</button>
+
         </div>
 
         <!-- APERÇU À DROITE -->
@@ -507,12 +508,10 @@
                 </div>
 
                 ${options.length > 0 ? `<div class="preview-section">
-                    <h3>Les sujets abordés</h3>
-                    <p><strong>Quel sujet vous a le plus intéressé ?</strong></p>
-                    <div style="margin-top: 0.5rem;">
-                        ${optionsHTML}
-                    </div>
-                    <p style="margin-top: 1rem;"><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong></p>
+                    <h3>Votre avis / vos remarques</h3>
+                    <p><strong>Avez-vous quelque chose à ajouter concernant les sujets abordés aujourd'hui ?</strong></p>
+                    <p>......................................................................</p>
+                    <p>......................................................................</p>
                     <p>......................................................................</p>
                     <p>......................................................................</p>
                     <p>......................................................................</p>
@@ -547,7 +546,7 @@
         document.getElementById('date').addEventListener('change', () => renderPreview());
         document.getElementById('intro').addEventListener('input', () => renderPreview());
 
-        // Pas de sujets/options par défaut
+        // Pas d'options/sujets par défaut
         sections = [];
         options = [];
         renderOptions();
