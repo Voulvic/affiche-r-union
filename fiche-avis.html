@@ -469,6 +469,18 @@
                     </div>
                 </div>
 
+                ${options.length > 0 ? `<div class="preview-section">
+                    <h3>Les sujets abordés</h3>
+                    <p><strong>Quel sujet vous a le plus intéressé ?</strong></p>
+                    <div style="margin-top: 0.5rem;">
+                        ${optionsHTML}
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong></p>
+                    <p>......................................................................</p>
+                    <p>......................................................................</p>
+                    <p>......................................................................</p>
+                </div>` : ''}
+
                 <div class="preview-section">
                     <h3>Votre avis / vos remarques</h3>
                     <p><strong>Avez-vous quelque chose à ajouter concernant les sujets abordés aujourd'hui ?</strong></p>
