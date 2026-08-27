@@ -362,29 +362,8 @@
             <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">2. Les sujets abordés</h3>
 
             <div class="form-group">
-                <label>Quel sujet vous a le plus intéressé ?</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="radio" id="sujet1" name="sujet" value="Les idées évoquées lors du CVS" onchange="renderPreview()">
-                        <label for="sujet1" style="margin-bottom: 0;">Les idées évoquées lors du CVS</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="sujet2" name="sujet" value="L'hygiène et l'entretien de la chambre" onchange="renderPreview()">
-                        <label for="sujet2" style="margin-bottom: 0;">L'hygiène et l'entretien de la chambre</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="sujet3" name="sujet" value="Les repas du samedi" onchange="renderPreview()">
-                        <label for="sujet3" style="margin-bottom: 0;">Les repas du samedi</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="sujet4" name="sujet" value="La boîte à idées / plaintes et réclamations" onchange="renderPreview()">
-                        <label for="sujet4" style="margin-bottom: 0;">La boîte à idées / plaintes et réclamations</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="radio" id="sujet5" name="sujet" value="Les activités et sorties" onchange="renderPreview()">
-                        <label for="sujet5" style="margin-bottom: 0;">Les activités et sorties</label>
-                    </div>
-                </div>
+                <label for="sujet">Quel sujet vous a le plus intéressé ?</label>
+                <textarea id="sujet" placeholder="À remplir" onchange="renderPreview()"></textarea>
             </div>
 
             <div class="form-group">
@@ -445,11 +424,10 @@
             const nom = document.getElementById('nom').value || '(Anonyme)';
             
             const avis = document.querySelector('input[name="avis"]:checked');
-            const avisValue = avis ? avis.value : 'À remplir';
+            const avisValue = avis ? avis.value : '';
             const avisPourquoi = document.getElementById('avisPourquoi').value;
 
-            const sujet = document.querySelector('input[name="sujet"]:checked');
-            const sujetValue = sujet ? sujet.value : 'À remplir';
+            const sujet = document.getElementById('sujet').value;
             const sujetPourquoi = document.getElementById('sujetPourquoi').value;
 
             const remarques = document.getElementById('remarques').value;
@@ -467,36 +445,36 @@
 
                 <div class="preview-section">
                     <h3>1. Votre avis sur la réunion</h3>
-                    <p><strong>Comment avez-vous trouvé cette réunion ?</strong><br>${avisValue}</p>
-                    ${avisPourquoi ? `<p><strong>Pourquoi ?</strong><br>${avisPourquoi}</p>` : ''}
+                    <p><strong>Comment avez-vous trouvé cette réunion ?</strong><br>${avisValue || 'À remplir'}</p>
+                    <p><strong>Pourquoi ?</strong><br>${avisPourquoi || 'À remplir'}</p>
                 </div>
 
                 <div class="preview-section">
                     <h3>2. Les sujets abordés</h3>
-                    <p><strong>Quel sujet vous a le plus intéressé ?</strong><br>${sujetValue}</p>
-                    ${sujetPourquoi ? `<p><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong><br>${sujetPourquoi}</p>` : ''}
+                    <p><strong>Quel sujet vous a le plus intéressé ?</strong><br>${sujet || 'À remplir'}</p>
+                    <p><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong><br>${sujetPourquoi || 'À remplir'}</p>
                 </div>
 
-                ${remarques ? `<div class="preview-section">
+                <div class="preview-section">
                     <h3>3. Votre avis / vos remarques</h3>
-                    <p>${remarques}</p>
-                </div>` : ''}
+                    <p>${remarques || 'À remplir'}</p>
+                </div>
 
-                ${questions ? `<div class="preview-section">
+                <div class="preview-section">
                     <h3>4. Vos questions</h3>
-                    <p>${questions}</p>
-                </div>` : ''}
+                    <p>${questions || 'À remplir'}</p>
+                </div>
 
-                ${ameliorations || activites ? `<div class="preview-section">
+                <div class="preview-section">
                     <h3>5. Vos idées et propositions</h3>
-                    ${ameliorations ? `<p><strong>Changements / Améliorations :</strong><br>${ameliorations}</p>` : ''}
-                    ${activites ? `<p><strong>Idées d'activités, sorties ou repas :</strong><br>${activites}</p>` : ''}
-                </div>` : ''}
+                    <p><strong>Y a-t-il des choses que vous aimeriez voir changer ou améliorer ?</strong><br>${ameliorations || 'À remplir'}</p>
+                    <p><strong>Avez-vous une idée d'activité, de sortie ou de repas ?</strong><br>${activites || 'À remplir'}</p>
+                </div>
 
-                ${prochains ? `<div class="preview-section">
+                <div class="preview-section">
                     <h3>6. Pour les prochaines réunions</h3>
-                    <p>${prochains}</p>
-                </div>` : ''}
+                    <p>${prochains || 'À remplir'}</p>
+                </div>
             `;
             
             document.getElementById('preview').innerHTML = html;
@@ -524,6 +502,12 @@
         // Initialisation
         document.getElementById('date').addEventListener('change', () => renderPreview());
         document.getElementById('nom').addEventListener('input', () => renderPreview());
+        document.getElementById('sujet').addEventListener('input', () => renderPreview());
+        document.getElementById('remarques').addEventListener('input', () => renderPreview());
+        document.getElementById('questions').addEventListener('input', () => renderPreview());
+        document.getElementById('ameliorations').addEventListener('input', () => renderPreview());
+        document.getElementById('activites').addEventListener('input', () => renderPreview());
+        document.getElementById('prochains').addEventListener('input', () => renderPreview());
 
         renderPreview();
     </script>
