@@ -370,7 +370,14 @@
 
             <hr class="divider">
 
-            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📝 Sujets abordés</h3>
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📋 Options de sujets (à cocher)</h3>
+            <div id="options-container"></div>
+
+            <button class="btn-add" onclick="ajouterOption()">+ Ajouter une option</button>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📝 Sujets abordés (pour avis)</h3>
             <div id="sections-container"></div>
 
             <button class="btn-add" onclick="ajouterSection()">+ Ajouter un sujet</button>
@@ -389,6 +396,39 @@
 
     <script>
         let sections = [];
+        let options = [];
+
+        function formatDate(dateString) {
+            if (!dateString) return 'À remplir';
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        function renderOptions() {
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            options.forEach((option, index) => {
+                const div = document.createElement('div');
+                div.className = 'section-item';
+                
+                div.innerHTML = `
+                    <div class="section-header">
+                        <h4 style="margin: 0;">Option ${index + 1}</h4>
+                        <button class="btn-remove" onclick="options.splice(${index}, 1); renderOptions(); renderPreview();">Retirer</button>
+                    </div>
+                    <input type="text" value="${option.titre}" placeholder="À remplir" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem; font-weight: 600;" onchange="options[${index}].titre = this.value; renderPreview();">
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        function ajouterOption() {
+            options.push({ titre: "" });
+            renderOptions();
+            renderPreview();
+        }
 
         function renderSections() {
             const container = document.getElementById('sections-container');
@@ -417,7 +457,13 @@
         }
 
         function renderPreview() {
-            const date = document.getElementById('date').value || 'À remplir';
+            const dateValue = document.getElementById('date').value;
+            const date = formatDate(dateValue);
+
+            let optionsHTML = '';
+            options.forEach((option, index) => {
+                optionsHTML += `<p>☐ ${option.titre || 'À remplir'}</p>`;
+            });
 
             let sectionsHTML = '';
             sections.forEach((section, index) => {
@@ -454,6 +500,18 @@
                     </div>
                 </div>
 
+                ${options.length > 0 ? `<div class="preview-section">
+                    <h3>Les sujets abordés</h3>
+                    <p><strong>Quel sujet vous a le plus intéressé ?</strong></p>
+                    <div style="margin-top: 0.5rem;">
+                        ${optionsHTML}
+                    </div>
+                    <p style="margin-top: 1rem;"><strong>Pourquoi ce sujet vous a-t-il intéressé ?</strong></p>
+                    <p>......................................................................</p>
+                    <p>......................................................................</p>
+                    <p>......................................................................</p>
+                </div>` : ''}
+
                 ${sectionsHTML}
             `;
             
@@ -482,8 +540,10 @@
         // Initialisation
         document.getElementById('date').addEventListener('change', () => renderPreview());
 
-        // Ajouter 3 sujets vides par défaut
+        // Ajouter des options et sujets vides par défaut
+        options = [{ titre: "" }, { titre: "" }, { titre: "" }, { titre: "" }, { titre: "" }];
         sections = [{ titre: "" }, { titre: "" }, { titre: "" }];
+        renderOptions();
         renderSections();
         renderPreview();
     </script>
