@@ -368,6 +368,11 @@
                 <input type="date" id="date">
             </div>
 
+            <div class="form-group">
+                <label for="intro">📝 Phrase d'introduction</label>
+                <textarea id="intro" placeholder="À remplir" onchange="renderPreview()">Cette fiche vous permet de donner votre avis sur les sujets abordés lors de la réunion, de poser une question ou de proposer une idée.</textarea>
+            </div>
+
             <hr class="divider">
 
             <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📋 Options de sujets (à cocher)</h3>
@@ -459,6 +464,7 @@
         function renderPreview() {
             const dateValue = document.getElementById('date').value;
             const date = formatDate(dateValue);
+            const intro = document.getElementById('intro').value;
 
             let optionsHTML = '';
             options.forEach((option, index) => {
@@ -486,7 +492,7 @@
                 </div>
                 
                 <div class="preview-intro">
-                    Cette fiche vous permet de donner votre avis sur les sujets abordés lors de la réunion, de poser une question ou de proposer une idée.
+                    ${intro}
                 </div>
 
                 <div class="preview-section">
@@ -539,10 +545,11 @@
 
         // Initialisation
         document.getElementById('date').addEventListener('change', () => renderPreview());
+        document.getElementById('intro').addEventListener('input', () => renderPreview());
 
-        // Ajouter des options et sujets vides par défaut
-        options = [{ titre: "" }, { titre: "" }, { titre: "" }, { titre: "" }, { titre: "" }];
-        sections = [{ titre: "" }, { titre: "" }, { titre: "" }];
+        // Pas de sujets/options par défaut
+        sections = [];
+        options = [];
         renderOptions();
         renderSections();
         renderPreview();

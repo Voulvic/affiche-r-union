@@ -431,6 +431,12 @@
     <script>
         let sections = [];
 
+        function formatDate(dateString) {
+            if (!dateString) return 'À remplir';
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
         const defaultSections = [
             { titre: "", objectifs: "", notes: "" },
             { titre: "", objectifs: "", notes: "" },
@@ -468,7 +474,7 @@
         }
 
         function renderPreview() {
-            const date = document.getElementById('date').value;
+            const date = formatDate(document.getElementById('date').value);
             const residents = document.getElementById('residents').value;
             const professionnels = document.getElementById('professionnels').value;
 
