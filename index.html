@@ -539,13 +539,7 @@
     <script>
         // Configuration
         let estEnGeorgien = false;
-        let themes = (() => {
-            const saved = localStorage.getItem('lhss_themes');
-            if (saved) {
-                return JSON.parse(saved);
-            }
-            return [];
-        })();
+        let themes = [];
 
         const couleursThemes = [
             'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
