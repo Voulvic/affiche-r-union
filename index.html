@@ -527,11 +527,17 @@
     <script>
         // Configuration
         let estEnGeorgien = false;
-        let themes = [
-            { emoji: '🎯', titre: 'Thème 1', desc: 'Description', couleur: '#FF6B6B' },
-            { emoji: '📅', titre: 'Thème 2', desc: 'Description', couleur: '#4ECDC4' },
-            { emoji: '💡', titre: 'Thème 3', desc: 'Description', couleur: '#FFE66D' }
-        ];
+        let themes = (() => {
+            const saved = localStorage.getItem('lhss_themes');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return [
+                { emoji: '🎯', titre: 'Thème 1', desc: 'Description', couleur: '#FF6B6B' },
+                { emoji: '📅', titre: 'Thème 2', desc: 'Description', couleur: '#4ECDC4' },
+                { emoji: '💡', titre: 'Thème 3', desc: 'Description', couleur: '#FFE66D' }
+            ];
+        })();
 
         const couleursThemes = [
             'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
@@ -592,6 +598,10 @@
             });
         }
 
+        function saveThemes() {
+            localStorage.setItem('lhss_themes', JSON.stringify(themes));
+        }
+
         function renderThemes() {
             const container = document.getElementById('themes-container');
             container.innerHTML = '';
@@ -610,11 +620,11 @@
                 
                 div.innerHTML = `
                     <div class="theme-header">
-                        <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; renderPreview();">
-                        <button class="btn-remove" type="button" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
+                        <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; saveThemes(); renderPreview();">
+                        <button class="btn-remove" type="button" onclick="themes.splice(${index}, 1); saveThemes(); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
                     </div>
-                    <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; renderPreview();">
-                    <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; renderPreview();">
+                    <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; saveThemes(); renderPreview();">
+                    <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; saveThemes(); renderPreview();">
                 `;
                 
                 container.appendChild(div);
@@ -637,6 +647,7 @@
                     desc: 'Description', 
                     couleur: couleursThemes[couleurIndex]
                 });
+                saveThemes();
                 renderThemes();
                 renderPreview();
             }
