@@ -170,16 +170,22 @@
             font-size: 0.9rem;
         }
 
-        .btn-print {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-        }
-
         .btn-pdf {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .btn-translate {
             background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+        }
+
+        button:disabled {
+            background: #ccc !important;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        button:disabled:hover {
+            transform: none !important;
         }
 
         .btn-print:hover, .btn-pdf:hover, .btn-translate:hover {
@@ -387,25 +393,25 @@
             }
 
             .preview-header {
-                padding: 4mm 8mm !important;
+                padding: 2mm 6mm !important;
                 flex-shrink: 0;
                 margin: 0 !important;
                 border-radius: 0 !important;
             }
 
             .preview-header h1 {
-                font-size: 26px !important;
-                margin: 1px 0 0 0 !important;
+                font-size: 22px !important;
+                margin: 0px 0 0 0 !important;
                 line-height: 1 !important;
             }
 
             .preview-header p {
-                font-size: 12px !important;
-                margin: 1px 0 0 0 !important;
+                font-size: 10px !important;
+                margin: 0px 0 0 0 !important;
             }
 
             .preview-header-icon {
-                font-size: 28px !important;
+                font-size: 20px !important;
                 margin: 0 !important;
             }
 
@@ -523,9 +529,8 @@
         <div class="panel panel-right">
             <h2>👁️ Aperçu</h2>
             <div class="btn-actions">
-                <button class="btn-print" onclick="imprimerAffiche()">🖨️ Imprimer</button>
                 <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
-                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate">🇬🇪 Géorgien</button>
+                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate" disabled>🇬🇪 Géorgien</button>
             </div>
             <div id="preview" class="preview-container"></div>
         </div>
@@ -732,9 +737,6 @@
             renderPreview();
         }
 
-        function imprimerAffiche() {
-            window.print();
-        }
 
         function telechargerPDF() {
             const titre = document.getElementById('titre').value || 'Affiche-Reunion';
