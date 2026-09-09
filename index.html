@@ -527,10 +527,6 @@
         <!-- APERÇU À DROITE -->
         <div class="panel panel-right">
             <h2>👁️ Aperçu</h2>
-            <div class="btn-actions">
-                <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
-                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate" disabled>🇬🇪 Géorgien</button>
-            </div>
             <div id="preview" class="preview-container"></div>
         </div>
     </div>
@@ -696,22 +692,19 @@
             }
 
             const html = `
-                <div style="display: flex; background: white;">
-                    <div style="background: linear-gradient(180deg, #FF6B6B 0%, #FF8E53 20%, #FFC93D 40%, #4ECDC4 70%, #45B7D1 100%); width: 150px; padding: 2rem 1rem; color: white; text-align: center; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <div style="font-size: 44px; margin-bottom: 1.5rem;">📋</div>
-                        <div style="font-size: 13px; font-weight: 500; line-height: 1.4;">Réunion des<br>Résidents</div>
+                <div style="display: flex; background: white; height: 100%;">
+                    <div style="background: linear-gradient(180deg, #FF6B6B 0%, #FF8E53 20%, #FFC93D 40%, #4ECDC4 70%, #45B7D1 100%); width: 150px; padding: 2rem 1rem; color: white; text-align: center; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 44px; margin-bottom: 1.5rem;">📋</div>
+                            <div style="font-size: 13px; font-weight: 500; line-height: 1.4;">Réunion des<br>Résidents</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+                            <button onclick="telechargerPDF()" style="padding: 0.7rem; background: rgba(255,255,255,0.3); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 500;">📥 PDF</button>
+                            <button onclick="basculerGeorgien()" id="btn-translate" style="padding: 0.7rem; background: rgba(255,255,255,0.3); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 500;">🇬🇪 GEO</button>
+                        </div>
                     </div>
                     <div style="flex: 1; padding: 2rem; background: white; display: flex; flex-direction: column;">
-                        <div class="preview-header">
-                            <div class="preview-header-icon">🎤</div>
-                            <h1>${titre || 'Titre'}</h1>
-                            <p>📅 ${date || 'Date'}</p>
-                        </div>
-                        <div class="preview-subtitle">${soustitre || 'Sous-titre'}</div>
                         ${themesSection}
-                        <div class="preview-footer">
-                            <p>${footerText}</p>
-                        </div>
                     </div>
                 </div>
             `;
