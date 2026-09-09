@@ -500,6 +500,12 @@
             <div id="themes-container"></div>
 
             <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">🎨 Emojis disponibles</h3>
+            <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
+            <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;"></div>
         </div>
 
         <!-- APERÇU À DROITE -->
@@ -578,6 +584,46 @@
 
         function saveThemes() {
             localStorage.setItem('lhss_themes', JSON.stringify(themes));
+        }
+
+        const emojiCategories = {
+            '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🚿'],
+            '🍽️ Repas': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕'],
+            '🎨 Activités': ['🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾'],
+            '💊 Santé': ['💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒'],
+            '🏠 Logement': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️'],
+            '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔']
+        };
+
+        function renderEmojis() {
+            const palette = document.getElementById('emoji-palette');
+            palette.innerHTML = '';
+            
+            Object.entries(emojiCategories).forEach(([category, emojis]) => {
+                const categoryTitle = document.createElement('div');
+                categoryTitle.className = 'emoji-category-title';
+                categoryTitle.innerHTML = category;
+                palette.appendChild(categoryTitle);
+                
+                emojis.forEach(emoji => {
+                    const btn = document.createElement('button');
+                    btn.className = 'emoji-btn';
+                    btn.innerHTML = emoji;
+                    btn.type = 'button';
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(emoji).then(() => {
+                            btn.style.background = '#4facfe';
+                            btn.style.color = 'white';
+                            setTimeout(() => {
+                                btn.style.background = '#f9f9f9';
+                                btn.style.color = 'inherit';
+                            }, 200);
+                        });
+                    };
+                    palette.appendChild(btn);
+                });
+            });
         }
 
         function renderThemes() {
@@ -663,7 +709,7 @@
                             <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 1rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
                                 <div>
                                     <p style="font-size: 0.85rem; color: #999; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Date et Heure</p>
-                                    <p style="font-size: 1.1rem; font-weight: 500; color: #4ECDC4; margin: 0;">${date || 'À remplir'}</p>
+                                    <p style="font-size: 1.1rem; font-weight: 500; color: #4ECDC4; margin: 0;">${date}</p>
                                 </div>
                             </div>
                         </div>
@@ -709,9 +755,6 @@
 
         // Initialisation
         document.getElementById('date').addEventListener('input', () => renderPreview());
-        document.getElementById('heure').addEventListener('input', () => renderPreview());
-        document.getElementById('titre').addEventListener('input', () => renderPreview());
-        document.getElementById('soustitre').addEventListener('input', () => renderPreview());
 
         renderThemes();
         updateAddButton();
