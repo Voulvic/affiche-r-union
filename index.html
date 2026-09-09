@@ -434,8 +434,11 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
+    <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <a href="index.html" style="padding: 0.7rem 1.5rem; background: #667eea; color: white; border-radius: 6px; text-decoration: none; font-weight: 500;">🎤 Affiche Réunion</a>
+        <a href="compte-rendu.html" style="padding: 0.7rem 1.5rem; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: 500;">📋 Compte-Rendu</a>
+        <a href="fiche-avis.html" style="padding: 0.7rem 1.5rem; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: 500;">📝 Fiche d'Avis</a>
+    </div>
         <!-- LEFT PANEL -->
         <div class="panel panel-left">
             <h2>🎤 Affiche Réunion</h2>
@@ -444,6 +447,20 @@
                 <label>📅 Date et Heure</label>
                 <input type="text" id="date" placeholder="Ex: DEMAIN A 13H">
             </div>
+
+            <div class="form-group">
+                <label>🕐 Heure uniquement</label>
+                <input type="text" id="heure" placeholder="Ex: 14h30">
+            </div>
+
+            <div class="form-group">
+                <label>📌 Titre principal</label>
+                <input type="text" id="titre" placeholder="Ex: RÉUNION RÉSIDENTS !">
+            </div>
+
+            <div class="form-group">
+                <label>📝 Sous-titre</label>
+                <input type="text" id="soustitre" placeholder="Ex: Au programme de cette réunion">
 
             <div class="form-group">
                 <label>📋 Titre principal</label>
@@ -497,7 +514,7 @@
                 themeCard.className = 'theme-card';
                 themeCard.innerHTML = `
                     <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-                        <input type="text" value="${theme.emoji}" style="width: 50px;" placeholder="Emoji" onchange="themes[${index}].emoji = this.value; renderPreview();">
+                        <input type="text" value="${theme.emoji}" maxlength="2" style="width: 50px;" placeholder="Emoji" onchange="themes[${index}].emoji = this.value; renderPreview();">
                         <input type="text" value="${theme.titre}" style="flex: 1;" placeholder="Titre" onchange="themes[${index}].titre = this.value; renderPreview();">
                     </div>
                     <button class="btn btn-remove" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
@@ -531,6 +548,7 @@
 
         function renderPreview() {
             const date = document.getElementById('date').value;
+            const heure = document.getElementById('heure').value || '14h30';
             const titre = document.getElementById('titre').value || 'Titre';
             const soustitre = document.getElementById('soustitre').value || 'Sous-titre';
 
@@ -551,7 +569,6 @@
             const preview = `
                 <div class="preview-container">
                     <div class="preview-sidebar">
-                        <div class="preview-sidebar-logo">LHSS</div>
                         <div class="preview-sidebar-icon">📋</div>
                         <div class="preview-sidebar-text">Réunion des<br>Résidents</div>
                     </div>
@@ -566,7 +583,7 @@
                             </div>
                             <div class="preview-info-item">
                                 <span class="preview-info-label">Heure</span>
-                                <span class="preview-info-value accent">14h30</span>
+                                <span class="preview-info-value accent">${heure}</span>
                             </div>
                         </div>
                         <div class="preview-header">
@@ -595,6 +612,7 @@
         }
 
         document.getElementById('date').addEventListener('input', () => renderPreview());
+        document.getElementById('heure').addEventListener('input', () => renderPreview());
         document.getElementById('titre').addEventListener('input', () => renderPreview());
         document.getElementById('soustitre').addEventListener('input', () => renderPreview());
 
