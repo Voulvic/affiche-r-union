@@ -479,11 +479,17 @@
     </style>
 </head>
 <body>
-    <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <a href="index.html" style="padding: 0.7rem 1.5rem; background: #667eea; color: white; border-radius: 6px; text-decoration: none; font-weight: 500;">🎤 Affiche Réunion</a>
-        <a href="compte-rendu.html" style="padding: 0.7rem 1.5rem; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: 500;">📋 Compte-Rendu</a>
-        <a href="fiche-avis.html" style="padding: 0.7rem 1.5rem; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: 500;">📝 Fiche d'Avis</a>
+    <div class="header">
+        <h1>🎤 Générateur d'Affiche Réunion</h1>
+        <p>Personnalisez votre affiche pour chaque réunion résidents</p>
     </div>
+
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="index.html" style="padding: 0.8rem 1.5rem; margin: 0 0.5rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">🎤 Affiche Réunion</a>
+        <a href="compte-rendu.html" style="padding: 0.8rem 1.5rem; margin: 0 0.5rem; background: #4facfe; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">📋 Compte-Rendu</a>
+        <a href="fiche-avis.html" style="padding: 0.8rem 1.5rem; margin: 0 0.5rem; background: #4facfe; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">📝 Fiche d'Avis</a>
+    </div>
+
     <div class="container">
         <!-- FORMULAIRE À GAUCHE -->
         <div class="panel panel-left">
@@ -492,6 +498,16 @@
             <div class="form-group">
                 <label for="date">📅 Date et Heure</label>
                 <input type="text" id="date" value="" placeholder="Ex: DEMAIN À 13H">
+            </div>
+
+            <div class="form-group">
+                <label for="titre">📝 Titre principal</label>
+                <input type="text" id="titre" value="" placeholder="Ex: RÉUNION RÉSIDENTS !">
+            </div>
+
+            <div class="form-group">
+                <label for="soustitre">Sous-titre</label>
+                <input type="text" id="soustitre" value="" placeholder="Ex: Au programme de cette réunion 👇">
             </div>
 
             <hr class="divider">
@@ -513,6 +529,7 @@
             <h2>👁️ Aperçu</h2>
             <div class="btn-actions">
                 <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
+                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate" disabled>🇬🇪 Géorgien</button>
             </div>
             <div id="preview" class="preview-container"></div>
         </div>
@@ -586,46 +603,6 @@
             localStorage.setItem('lhss_themes', JSON.stringify(themes));
         }
 
-        const emojiCategories = {
-            '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🚿'],
-            '🍽️ Repas': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕'],
-            '🎨 Activités': ['🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾'],
-            '💊 Santé': ['💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒'],
-            '🏠 Logement': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️'],
-            '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔']
-        };
-
-        function renderEmojis() {
-            const palette = document.getElementById('emoji-palette');
-            palette.innerHTML = '';
-            
-            Object.entries(emojiCategories).forEach(([category, emojis]) => {
-                const categoryTitle = document.createElement('div');
-                categoryTitle.className = 'emoji-category-title';
-                categoryTitle.innerHTML = category;
-                palette.appendChild(categoryTitle);
-                
-                emojis.forEach(emoji => {
-                    const btn = document.createElement('button');
-                    btn.className = 'emoji-btn';
-                    btn.innerHTML = emoji;
-                    btn.type = 'button';
-                    btn.onclick = (e) => {
-                        e.preventDefault();
-                        navigator.clipboard.writeText(emoji).then(() => {
-                            btn.style.background = '#4facfe';
-                            btn.style.color = 'white';
-                            setTimeout(() => {
-                                btn.style.background = '#f9f9f9';
-                                btn.style.color = 'inherit';
-                            }, 200);
-                        });
-                    };
-                    palette.appendChild(btn);
-                });
-            });
-        }
-
         function renderThemes() {
             const container = document.getElementById('themes-container');
             container.innerHTML = '';
@@ -679,14 +656,30 @@
 
         function renderPreview() {
             let date = document.getElementById('date').value;
+            let titre = document.getElementById('titre').value;
+            let soustitre = document.getElementById('soustitre').value;
+            
+            if (estEnGeorgien) {
+                date = traduire(date) || date;
+                titre = traduire(titre) || titre;
+                soustitre = traduire(soustitre) || soustitre;
+            }
             
             let themesHTML = '';
             themes.forEach(t => {
+                let themeTitre = t.titre;
+                let themeDesc = t.desc;
+                
+                if (estEnGeorgien) {
+                    themeTitre = traduire(themeTitre) || themeTitre;
+                    themeDesc = traduire(themeDesc) || themeDesc;
+                }
+                
                 themesHTML += `
                     <div class="theme-card" style="background: ${t.couleur};">
                         <div class="theme-card-icon">${t.emoji}</div>
-                        <h3>${t.titre}</h3>
-                        <p>${t.desc}</p>
+                        <h3>${themeTitre}</h3>
+                        <p>${themeDesc}</p>
                     </div>
                 `;
             });
@@ -697,6 +690,11 @@
                     <p style="color: #999; text-align: center;">Ajoutez des thèmes pour voir l'aperçu 👈</p>
                 </div>`;
 
+            let footerText = 'Ne manquez pas cette réunion importante ! 🎯';
+            if (estEnGeorgien) {
+                footerText = traduire(footerText) || footerText;
+            }
+
             const html = `
                 <div style="display: flex; background: white;">
                     <div style="background: linear-gradient(180deg, #FF6B6B 0%, #FF8E53 20%, #FFC93D 40%, #4ECDC4 70%, #45B7D1 100%); width: 150px; padding: 2rem 1rem; color: white; text-align: center; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -704,17 +702,16 @@
                         <div style="font-size: 13px; font-weight: 500; line-height: 1.4;">Réunion des<br>Résidents</div>
                     </div>
                     <div style="flex: 1; padding: 2rem; background: white; display: flex; flex-direction: column;">
-                        <div style="margin-bottom: 2rem;">
-                            <p style="font-size: 0.85rem; color: #999; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">INFORMATIONS</p>
-                            <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 1rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-                                <div>
-                                    <p style="font-size: 0.85rem; color: #999; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Date et Heure</p>
-                                    <p style="font-size: 1.1rem; font-weight: 500; color: #4ECDC4; margin: 0;">${date}</p>
-                                </div>
-                            </div>
+                        <div class="preview-header">
+                            <div class="preview-header-icon">🎤</div>
+                            <h1>${titre || 'Titre'}</h1>
+                            <p>📅 ${date || 'Date'}</p>
                         </div>
-                        <p style="font-size: 0.85rem; color: #999; margin: 0 0 1.5rem 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">AU PROGRAMME</p>
+                        <div class="preview-subtitle">${soustitre || 'Sous-titre'}</div>
                         ${themesSection}
+                        <div class="preview-footer">
+                            <p>${footerText}</p>
+                        </div>
                     </div>
                 </div>
             `;
@@ -755,6 +752,8 @@
 
         // Initialisation
         document.getElementById('date').addEventListener('input', () => renderPreview());
+        document.getElementById('titre').addEventListener('input', () => renderPreview());
+        document.getElementById('soustitre').addEventListener('input', () => renderPreview());
 
         renderThemes();
         updateAddButton();
