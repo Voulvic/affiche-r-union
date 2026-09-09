@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur d'Affiche Réunion - LHSS</title>
+    <title>Générateur d'Affiche Réunion Résidents</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
@@ -13,18 +13,32 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: #f5f5f5;
-            min-height: 100vh;
-            padding: 2rem 1rem;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
             color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 400px 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
 
@@ -35,79 +49,82 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .panel h2 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
+        .panel-left {
+            height: fit-content;
+        }
+
+        .panel-right {
+            position: sticky;
+            top: 2rem;
+            height: auto;
+            max-height: none;
+        }
+
+        h2 {
+            font-size: 1.5rem;
             color: #333;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #667eea;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 0.8rem;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
+        label {
             display: block;
-            font-size: 0.9rem;
-            font-weight: 500;
             margin-bottom: 0.5rem;
-            color: #555;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
         }
 
-        .form-group input,
-        .form-group textarea {
+        input[type="text"] {
             width: 100%;
-            padding: 0.7rem;
+            padding: 0.8rem;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 0.95rem;
-            font-family: inherit;
-            background: white;
-            color: #333;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
         }
 
-        .btn {
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
+        .theme-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 1rem;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 100%;
+        .theme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
+        .theme-emoji {
+            width: 60px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 1.5rem;
         }
 
         .btn-remove {
             background: #ff6b6b;
             color: white;
+            border: none;
             padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
             font-size: 0.85rem;
         }
 
@@ -115,236 +132,235 @@
             background: #ff5252;
         }
 
-        .theme-card {
-            background: #f9f9f9;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 1px solid #eee;
+        .btn-add {
+            width: 100%;
+            padding: 0.8rem;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
         }
 
-        .theme-card input {
-            margin-bottom: 0.5rem;
+        .btn-add:hover {
+            background: #2e8fd6;
         }
 
-        .theme-card .btn-remove {
-            margin-top: 0.5rem;
+        .btn-add:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .btn-print, .btn-pdf, .btn-translate {
+            padding: 0.8rem 1rem;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-translate {
+            background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+        }
+
+        button:disabled {
+            background: #ccc !important;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        button:disabled:hover {
+            transform: none !important;
+        }
+
+        .btn-print:hover, .btn-pdf:hover, .btn-translate:hover {
+            transform: scale(1.02);
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #eee;
         }
 
         .preview-container {
             background: white;
             border-radius: 0;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: visible;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             height: auto;
         }
 
-        .preview-sidebar {
-            background: linear-gradient(180deg, #FF6B6B 0%, #FF8E53 20%, #FFC93D 40%, #4ECDC4 70%, #45B7D1 100%);
-            width: 150px;
-            padding: 2rem 1rem;
-            color: white;
-            text-align: center;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .preview-sidebar-logo {
-            font-size: 11px;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.9;
-            font-weight: 500;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-        }
-
-        .preview-sidebar-icon {
-            font-size: 44px;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
-        }
-
-        .preview-sidebar-text {
-            font-size: 13px;
-            font-weight: 500;
-            line-height: 1.4;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-        }
-
-        .preview-content {
-            flex: 1;
-            padding: 2rem;
-            background: white;
-            display: flex;
-            flex-direction: column;
-        }
-
         .preview-header {
-            background: none;
-            padding: 0;
-            text-align: left;
-            color: #333;
+            background: linear-gradient(90deg, #FF6B6B 0%, #FF8E53 25%, #FFC93D 50%, #4ECDC4 75%, #45B7D1 100%);
+            padding: 0.4rem 1.2rem;
+            text-align: center;
+            color: black;
             overflow: visible;
             border-radius: 0;
-            margin-bottom: 2rem;
+        }
+
+        .preview-header-icon {
+            font-size: 1.8rem;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            display: block;
         }
 
         .preview-header h1 {
-            font-size: 1.8rem;
-            margin: 0 0 1rem 0;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #333;
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 0.1rem 0 0 0;
+            padding: 0;
         }
 
         .preview-header p {
-            font-size: 0.85rem;
-            margin: 0;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #999;
-        }
-
-        .preview-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .preview-info-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .preview-info-label {
-            font-size: 0.85rem;
-            color: #999;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-
-        .preview-info-value {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .preview-info-value.accent {
-            color: #4ECDC4;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.1rem 0 0 0;
+            padding: 0;
         }
 
         .preview-subtitle {
-            padding: 0;
-            text-align: left;
-            color: #999;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.95rem;
+            color: black;
             font-style: italic;
-            border-bottom: none;
-            font-size: 0.9rem;
-            background: none;
-            margin-bottom: 1.5rem;
+            font-weight: 500;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .preview-themes {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            padding: 0;
-            flex: 1;
-            background: none;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
+            padding: 1.2rem;
+            justify-content: center;
         }
 
-        .theme-card-display {
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
+        .theme-card {
+            padding: 0.8rem;
+            border-radius: 10px;
             color: black;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 120px;
         }
 
         .theme-card-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
         }
 
-        .theme-card-title {
+        .theme-card h3 {
+            margin: 0 0 0.2rem 0;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: bold;
+        }
+
+        .theme-card p {
+            margin: 0;
+            font-size: 0.75rem;
+            opacity: 0.95;
         }
 
         .preview-footer {
-            padding: 1rem;
+            background: #f8f9fa;
+            padding: 0.8rem;
             text-align: center;
-            color: #666;
-            border-top: 1px solid #333;
-            font-size: 0.85rem;
-            background: #1a1a1a;
+            border-left: 5px solid #FF6B6B;
         }
 
         .preview-footer p {
             margin: 0;
-        }
-
-        .control-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .control-buttons button {
-            flex: 1;
-        }
-
-        .btn-download {
-            background: #4ECDC4;
+            font-size: 0.8rem;
             color: black;
-            font-weight: 600;
+            font-weight: 500;
         }
 
-        .btn-download:hover {
-            background: #3db8ae;
+        .emoji-btn {
+            aspect-ratio: 1;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-btn:hover {
+            background: #f0f0f0;
+            border-color: #4facfe;
+            transform: scale(1.1);
+        }
+
+        .emoji-category-title {
+            grid-column: 1 / -1;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+        }
+
+        .empty-themes {
+            padding: 1rem;
+            background: #f0f7ff;
+            border: 1px solid #4facfe;
+            border-radius: 6px;
+            color: #666;
+            text-align: center;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 1fr;
             }
-            
+
+            .panel-right {
+                position: relative;
+                top: 0;
+            }
+
+            .preview-header h1 {
+                font-size: 2rem;
+            }
+
             .preview-themes {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
+            }
+
+            .btn-actions {
+                grid-template-columns: 1fr;
             }
         }
 
         @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .container {
-                max-width: 100%;
-                grid-template-columns: 1fr;
-                gap: 0;
+            * {
                 margin: 0;
-            }
-
-            .panel {
-                display: none;
+                padding: 0;
             }
 
             html, body {
@@ -358,6 +374,10 @@
             body {
                 padding: 0;
                 margin: 0;
+            }
+
+            .header, .container {
+                display: none !important;
             }
 
             .preview-container {
@@ -381,20 +401,25 @@
 
             .preview-header h1 {
                 font-size: 22px !important;
+                margin: 0px 0 0 0 !important;
+                line-height: 1 !important;
             }
 
             .preview-header p {
                 font-size: 10px !important;
+                margin: 0px 0 0 0 !important;
             }
 
             .preview-header-icon {
                 font-size: 20px !important;
+                margin: 0 !important;
             }
 
             .preview-subtitle {
-                padding: 1.5mm 6mm !important;
-                font-size: 9px !important;
-                border-bottom: none !important;
+                padding: 6mm 8mm !important;
+                font-size: 13px !important;
+                flex-shrink: 0;
+                margin: 0 !important;
             }
 
             .preview-themes {
@@ -405,7 +430,7 @@
                 margin: 0 !important;
             }
 
-            .theme-card-display {
+            .theme-card {
                 padding: 8mm !important;
                 border-radius: 8px !important;
                 margin: 0 !important;
@@ -413,18 +438,37 @@
                 flex-direction: column !important;
                 overflow: hidden !important;
                 color: black !important;
+                page-break-inside: avoid !important;
             }
 
             .theme-card-icon {
-                font-size: 18px !important;
+                font-size: 28px !important;
+                margin-bottom: 3px !important;
+                line-height: 1 !important;
             }
 
-            .theme-card-title {
+            .theme-card h3 {
+                font-size: 13px !important;
+                margin: 0 0 2px 0 !important;
+                font-weight: bold !important;
+                line-height: 1.1 !important;
+            }
+
+            .theme-card p {
                 font-size: 10px !important;
+                margin: 0 !important;
+                line-height: 1 !important;
             }
 
             .preview-footer {
-                display: none;
+                padding: 6mm 8mm !important;
+                flex-shrink: 0;
+                margin: 0 !important;
+            }
+
+            .preview-footer p {
+                font-size: 11px !important;
+                margin: 0 !important;
             }
 
             @page {
@@ -434,174 +478,276 @@
         }
     </style>
 </head>
+<body>
     <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         <a href="index.html" style="padding: 0.7rem 1.5rem; background: #667eea; color: white; border-radius: 6px; text-decoration: none; font-weight: 500;">🎤 Affiche Réunion</a>
         <a href="compte-rendu.html" style="padding: 0.7rem 1.5rem; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: 500;">📋 Compte-Rendu</a>
         <a href="fiche-avis.html" style="padding: 0.7rem 1.5rem; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: 500;">📝 Fiche d'Avis</a>
     </div>
-        <!-- LEFT PANEL -->
+    <div class="header">
+        <h1>🎤 Générateur d'Affiche Réunion</h1>
+        <p>Personnalisez votre affiche pour chaque réunion résidents</p>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="index.html" style="padding: 0.8rem 1.5rem; margin: 0 0.5rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">🎤 Affiche Réunion</a>
+        <a href="compte-rendu.html" style="padding: 0.8rem 1.5rem; margin: 0 0.5rem; background: #4facfe; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">📋 Compte-Rendu</a>
+        <a href="fiche-avis.html" style="padding: 0.8rem 1.5rem; margin: 0 0.5rem; background: #4facfe; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">📝 Fiche d'Avis</a>
+    </div>
+
+    <div class="container">
+        <!-- FORMULAIRE À GAUCHE -->
         <div class="panel panel-left">
-            <h2>🎤 Affiche Réunion</h2>
-
+            <h2>⚙️ Personnalisez</h2>
+            
             <div class="form-group">
-                <label>📅 Date et Heure</label>
-                <input type="text" id="date" placeholder="Ex: DEMAIN A 13H">
-            </div>
-
-            <div class="form-group">
-                <label>🕐 Heure uniquement</label>
-                <input type="text" id="heure" placeholder="Ex: 14h30">
+                <label for="date">📅 Date et Heure</label>
+                <input type="text" id="date" value="" placeholder="Ex: DEMAIN À 13H">
             </div>
 
             <div class="form-group">
-                <label>📌 Titre principal</label>
-                <input type="text" id="titre" placeholder="Ex: RÉUNION RÉSIDENTS !">
+                <label for="heure">🕐 Heure uniquement</label>
+                <input type="text" id="heure" value="14h30" placeholder="Ex: 14h30">
             </div>
 
             <div class="form-group">
-                <label>📝 Sous-titre</label>
-                <input type="text" id="soustitre" placeholder="Ex: Au programme de cette réunion">
+                <label for="titre">📝 Titre principal</label>
+                <input type="text" id="titre" value="" placeholder="Ex: RÉUNION RÉSIDENTS !">
             </div>
 
-            <h3 style="font-size: 1rem; margin-top: 2rem; margin-bottom: 1rem; color: #333;">Thèmes (max 6)</h3>
-
-            <div id="themes-list"></div>
-
-            <button class="btn btn-primary" onclick="ajouterTheme()">+ Ajouter un thème</button>
-
-            <div class="control-buttons">
-                <button class="btn btn-download" onclick="telechargerPDF()">📥 Télécharger PDF</button>
+            <div class="form-group">
+                <label for="soustitre">Sous-titre</label>
+                <input type="text" id="soustitre" value="" placeholder="Ex: Au programme de cette réunion 👇">
             </div>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Thèmes (max 6)</h3>
+            <div id="themes-container"></div>
+
+            <button class="btn-add" id="btn-add" onclick="ajouterTheme()">+ Ajouter un thème</button>
+
+            <hr class="divider">
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">🎨 Emojis disponibles</h3>
+            <p style="font-size: 0.85rem; color: #666; margin: 0 0 1rem 0;">Cliquez pour copier</p>
+            <div id="emoji-palette" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;"></div>
         </div>
 
-        <!-- RIGHT PANEL - PREVIEW -->
+        <!-- APERÇU À DROITE -->
         <div class="panel panel-right">
             <h2>👁️ Aperçu</h2>
-            <div id="preview"></div>
+            <div class="btn-actions">
+                <button class="btn-pdf" onclick="telechargerPDF()">📥 PDF</button>
+                <button class="btn-translate" onclick="basculerGeorgien()" id="btn-translate" disabled>🇬🇪 Géorgien</button>
+            </div>
+            <div id="preview" class="preview-container"></div>
         </div>
     </div>
 
     <script>
+        // Configuration
+        let estEnGeorgien = false;
         let themes = [];
 
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            const parts = dateString.split('/');
-            if (parts.length === 3) {
-                const [day, month, year] = parts;
-                const date = new Date(year, month - 1, day);
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return date.toLocaleDateString('fr-FR', options).toUpperCase();
-            }
-            return dateString;
+        const couleursThemes = [
+            'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
+            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+            'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            'linear-gradient(135deg, #30b0fe 0%, #5fc7eb 100%)'
+        ];
+
+        const emojiCategories = {
+            '🧼 Hygiène': ['🧼', '🛁', '🧴', '🧷', '🧻', '💅', '💇', '🪥', '🚿'],
+            '🍽️ Repas': ['🍽️', '👨‍🍳', '🍳', '🥘', '🍲', '🍝', '🥗', '🍎', '🥕'],
+            '🎨 Activités': ['🎨', '🎭', '🎬', '🎮', '📚', '📖', '⚽', '🏀', '🎾'],
+            '💊 Santé': ['💊', '🏥', '🩺', '💉', '🔬', '👨‍⚕️', '😷', '🤒'],
+            '🏠 Logement': ['🏠', '🏡', '🛏️', '🧹', '🧺', '🪟', '🚪', '🛋️'],
+            '💼 Travail': ['💼', '📋', '📝', '💻', '📱', '🤝', '🎓', '👔']
+        };
+
+        const traductionsGeo = {
+            'RÉUNION RÉSIDENTS !': 'მოსახლეობის შეკრება !',
+            'Au programme de cette réunion 👇': 'დღევანდელი აგენდა 👇',
+            'Ne manquez pas cette réunion importante !': 'ამ მნიშვნელოვანი შეკრების გამოტოვება აკრძალულია !'
+        };
+
+        function traduire(texte) {
+            return traductionsGeo[texte] || texte;
+        }
+
+        function renderEmojis() {
+            const palette = document.getElementById('emoji-palette');
+            palette.innerHTML = '';
+            
+            Object.entries(emojiCategories).forEach(([category, emojis]) => {
+                const categoryTitle = document.createElement('div');
+                categoryTitle.className = 'emoji-category-title';
+                categoryTitle.innerHTML = category;
+                palette.appendChild(categoryTitle);
+                
+                emojis.forEach(emoji => {
+                    const btn = document.createElement('button');
+                    btn.className = 'emoji-btn';
+                    btn.innerHTML = emoji;
+                    btn.type = 'button';
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(emoji).then(() => {
+                            btn.style.background = '#4facfe';
+                            btn.style.color = 'white';
+                            setTimeout(() => {
+                                btn.style.background = '#f9f9f9';
+                                btn.style.color = 'inherit';
+                            }, 200);
+                        });
+                    };
+                    palette.appendChild(btn);
+                });
+            });
+        }
+
+        function saveThemes() {
+            localStorage.setItem('lhss_themes', JSON.stringify(themes));
         }
 
         function renderThemes() {
-            const themesList = document.getElementById('themes-list');
-            themesList.innerHTML = '';
-
+            const container = document.getElementById('themes-container');
+            container.innerHTML = '';
+            
+            if (themes.length === 0) {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.className = 'empty-themes';
+                emptyMsg.innerHTML = '📝 Cliquez sur "+ Ajouter un thème" pour commencer';
+                container.appendChild(emptyMsg);
+                return;
+            }
+            
             themes.forEach((theme, index) => {
-                const themeCard = document.createElement('div');
-                themeCard.className = 'theme-card';
-                themeCard.innerHTML = `
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-                        <input type="text" value="${theme.emoji}" maxlength="2" style="width: 50px;" placeholder="Emoji" onchange="themes[${index}].emoji = this.value; renderPreview();">
-                        <input type="text" value="${theme.titre}" style="flex: 1;" placeholder="Titre" onchange="themes[${index}].titre = this.value; renderPreview();">
+                const div = document.createElement('div');
+                div.className = 'theme-item';
+                
+                div.innerHTML = `
+                    <div class="theme-header">
+                        <input type="text" class="theme-emoji" value="${theme.emoji}" maxlength="2" onchange="themes[${index}].emoji = this.value; saveThemes(); renderPreview();">
+                        <button class="btn-remove" type="button" onclick="themes.splice(${index}, 1); saveThemes(); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
                     </div>
-                    <button class="btn btn-remove" onclick="themes.splice(${index}, 1); renderThemes(); renderPreview(); updateAddButton();">Retirer</button>
+                    <input type="text" value="${theme.titre}" placeholder="Titre du thème" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.9rem;" onchange="themes[${index}].titre = this.value; saveThemes(); renderPreview();">
+                    <input type="text" value="${theme.desc}" placeholder="Description" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem;" onchange="themes[${index}].desc = this.value; saveThemes(); renderPreview();">
                 `;
-                themesList.appendChild(themeCard);
+                
+                container.appendChild(div);
             });
 
             updateAddButton();
         }
 
         function updateAddButton() {
-            const btn = document.querySelector('button[onclick="ajouterTheme()"]');
-            if (themes.length >= 6) {
-                btn.disabled = true;
-                btn.style.opacity = '0.5';
-                btn.style.cursor = 'not-allowed';
-            } else {
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-            }
+            const btn = document.getElementById('btn-add');
+            btn.disabled = themes.length >= 6;
         }
 
         function ajouterTheme() {
             if (themes.length < 6) {
-                themes.push({ emoji: '⭐', titre: 'Nouveau thème' });
+                const couleurIndex = themes.length % couleursThemes.length;
+                themes.push({ 
+                    emoji: '⭐', 
+                    titre: 'Nouveau thème', 
+                    desc: 'Description', 
+                    couleur: couleursThemes[couleurIndex]
+                });
+                saveThemes();
                 renderThemes();
                 renderPreview();
             }
         }
 
         function renderPreview() {
-            const date = document.getElementById('date').value;
-            const heure = document.getElementById('heure').value || '14h30';
-            const titre = document.getElementById('titre').value || 'Titre';
-            const soustitre = document.getElementById('soustitre').value || 'Sous-titre';
-
+            let date = document.getElementById('date').value;
+            let heure = document.getElementById('heure').value || '14h30';
+            let titre = document.getElementById('titre').value;
+            let soustitre = document.getElementById('soustitre').value;
+            
             let themesHTML = '';
-            if (themes.length === 0) {
-                themesHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; padding: 2rem;">Ajoutez des thèmes pour commencer</p>';
-            } else {
-                themes.forEach(theme => {
-                    themesHTML += `
-                        <div class="theme-card-display" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border: 0.5px solid #7dd3fc;">
-                            <div class="theme-card-icon">${theme.emoji}</div>
-                            <div class="theme-card-title">${theme.titre}</div>
-                        </div>
-                    `;
-                });
-            }
-
-            const preview = `
-                <div class="preview-container">
-                    <div class="preview-sidebar">
-                        <div class="preview-sidebar-icon">📋</div>
-                        <div class="preview-sidebar-text">Réunion des<br>Résidents</div>
+            themes.forEach(t => {
+                themesHTML += `
+                    <div class="theme-card" style="background: ${t.couleur};">
+                        <div class="theme-card-icon">${t.emoji}</div>
+                        <h3>${t.titre}</h3>
+                        <p>${t.desc}</p>
                     </div>
-                    <div class="preview-content">
-                        <div class="preview-header">
-                            <p>INFORMATIONS</p>
-                        </div>
-                        <div class="preview-info">
-                            <div class="preview-info-item">
-                                <span class="preview-info-label">Date</span>
-                                <span class="preview-info-value">${date || 'À remplir'}</span>
+                `;
+            });
+
+            const themesSection = themes.length > 0 ? 
+                `<div class="preview-themes">${themesHTML}</div>` :
+                `<div class="preview-themes" style="display: flex; align-items: center; justify-content: center; min-height: 150px; background: #f9f9f9;">
+                    <p style="color: #999; text-align: center;">Ajoutez des thèmes pour voir l'aperçu 👈</p>
+                </div>`;
+
+            const html = `
+                <div style="display: flex; background: white;">
+                    <div style="background: linear-gradient(180deg, #FF6B6B 0%, #FF8E53 20%, #FFC93D 40%, #4ECDC4 70%, #45B7D1 100%); width: 150px; padding: 2rem 1rem; color: white; text-align: center; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div style="font-size: 44px; margin-bottom: 1.5rem;">📋</div>
+                        <div style="font-size: 13px; font-weight: 500; line-height: 1.4;">Réunion des<br>Résidents</div>
+                    </div>
+                    <div style="flex: 1; padding: 2rem; background: white; display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 2rem;">
+                            <p style="font-size: 0.85rem; color: #999; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">INFORMATIONS</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
+                                <div>
+                                    <p style="font-size: 0.85rem; color: #999; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Date</p>
+                                    <p style="font-size: 1.1rem; font-weight: 500; color: #333; margin: 0;">${date || 'À remplir'}</p>
+                                </div>
+                                <div>
+                                    <p style="font-size: 0.85rem; color: #999; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Heure</p>
+                                    <p style="font-size: 1.1rem; font-weight: 500; color: #4ECDC4; margin: 0;">${heure}</p>
+                                </div>
                             </div>
-                            <div class="preview-info-item">
-                                <span class="preview-info-label">Heure</span>
-                                <span class="preview-info-value accent">${heure}</span>
-                            </div>
                         </div>
-                        <div class="preview-header">
-                            <p>AU PROGRAMME</p>
-                        </div>
-                        <div class="preview-themes">
-                            ${themesHTML}
-                        </div>
+                        <p style="font-size: 0.85rem; color: #999; margin: 0 0 1.5rem 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">AU PROGRAMME</p>
+                        ${themesSection}
                     </div>
                 </div>
             `;
-
-            document.getElementById('preview').innerHTML = preview;
+            
+            document.getElementById('preview').innerHTML = html;
         }
 
+        function basculerGeorgien() {
+            estEnGeorgien = !estEnGeorgien;
+            const btn = document.getElementById('btn-translate');
+            
+            if (estEnGeorgien) {
+                btn.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
+                btn.innerHTML = '🇫🇷 Français';
+            } else {
+                btn.style.background = 'linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%)';
+                btn.innerHTML = '🇬🇪 Géorgien';
+            }
+            
+            renderPreview();
+        }
+
+
         function telechargerPDF() {
-            const element = document.querySelector('.preview-container');
+            const titre = document.getElementById('titre').value || 'Affiche-Reunion';
+            const element = document.getElementById('preview');
+            
             const opt = {
                 margin: 0,
-                filename: 'affiche-reunion.pdf',
+                filename: titre + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
+                html2canvas: { scale: 2 },
                 jsPDF: { format: 'a4', orientation: 'landscape' }
             };
+            
             html2pdf().set(opt).from(element).save();
         }
 
+        // Initialisation
         document.getElementById('date').addEventListener('input', () => renderPreview());
         document.getElementById('heure').addEventListener('input', () => renderPreview());
         document.getElementById('titre').addEventListener('input', () => renderPreview());
@@ -609,6 +755,7 @@
 
         renderThemes();
         updateAddButton();
+        renderEmojis();
         renderPreview();
     </script>
 </body>
