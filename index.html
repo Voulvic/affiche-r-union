@@ -365,7 +365,7 @@
 
             html, body {
                 width: 297mm;
-                height: 210mm;
+                height: auto;
                 padding: 0;
                 margin: 0;
                 background: white;
@@ -389,7 +389,7 @@
                 padding: 0 !important;
                 display: flex !important;
                 flex-direction: column !important;
-                overflow: hidden !important;
+                page-break-inside: avoid !important;
             }
 
             .preview-header {
@@ -424,10 +424,11 @@
 
             .preview-themes {
                 grid-template-columns: 1fr 1fr 1fr !important;
-                grid-auto-rows: minmax(30mm, 1fr) !important;
+                grid-auto-rows: auto !important;
                 gap: 6mm !important;
                 padding: 8mm 8mm !important;
                 margin: 0 !important;
+                page-break-inside: avoid !important;
             }
 
             .theme-card {
@@ -438,6 +439,7 @@
                 flex-direction: column !important;
                 overflow: hidden !important;
                 color: black !important;
+                page-break-inside: avoid !important;
             }
 
             .theme-card-icon {

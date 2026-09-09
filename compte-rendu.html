@@ -310,7 +310,7 @@
 
             html, body {
                 width: 210mm;
-                height: 297mm;
+                height: auto;
                 padding: 0;
                 margin: 0;
                 background: white;
@@ -500,15 +500,15 @@
                     <div class="preview-info">
                         <div class="preview-info-item">
                             <div class="preview-info-label">📅 Date</div>
-                            <div>${date || ''}</div>
+                            <div>${date || 'À remplir'}</div>
                         </div>
                         <div class="preview-info-item">
                             <div class="preview-info-label">👥 Résidents présents</div>
-                            <div style="white-space: pre-wrap;">${residents || ''}</div>
+                            <div style="white-space: pre-wrap;">${residents || 'À remplir'}</div>
                         </div>
                         <div class="preview-info-item">
                             <div class="preview-info-label">👔 Professionnels présents</div>
-                            <div style="white-space: pre-wrap;">${professionnels || ''}</div>
+                            <div style="white-space: pre-wrap;">${professionnels || 'À remplir'}</div>
                         </div>
                     </div>
                 </div>
