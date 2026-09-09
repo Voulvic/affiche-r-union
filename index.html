@@ -6,6 +6,8 @@
     <title>Générateur d'Affiche Réunion Résidents</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +15,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', 'Arial', sans-serif;
             background: #f5f5f5;
             padding: 2rem;
         }
@@ -700,7 +702,7 @@
                     <div style="background: linear-gradient(180deg, #FF6B6B 0%, #FF8E53 20%, #FFC93D 40%, #4ECDC4 70%, #45B7D1 100%); width: 150px; padding: 2rem 1rem; color: white; text-align: center; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;">
                         <div>
                             <div style="font-size: 44px; margin-bottom: 1rem;">📋</div>
-                            <div style="font-size: 13px; font-weight: 600; line-height: 1.5; color: black;">${titre || 'Titre'}</div>
+                            <div style="font-size: 18px; font-weight: 700; line-height: 1.5; color: black;">${titre || 'Titre'}</div>
                         </div>
                         <div style="border-top: 1px solid rgba(255,255,255,0.3); width: 100%; padding-top: 1rem;">
                             <p style="font-size: 12px; font-weight: 700; color: black; margin: 0;">${date || 'Date'}</p>
