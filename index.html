@@ -699,17 +699,15 @@
             }
 
             const html = `
-                <div style="display: flex; flex-direction: column; background: #f9f9f9; height: 210mm; min-height: 210mm;">
-                    <div style="padding: 2rem 2rem 1rem 2rem; background: #f9f9f9;">
+                <div style="display: flex; flex-direction: column; background: white; height: 210mm; min-height: 210mm;">
+                    <div style="padding: 2rem 2rem 1rem 2rem; background: white; text-align: center; border-bottom: 0.5px solid #eee;">
                         <div>
                             <p style="font-size: 18px; font-weight: 700; color: black; margin: 0;">${titre || 'Titre'}</p>
                             <p style="font-size: 14px; font-weight: 700; color: black; margin: 0.5rem 0 0 0;">${date || 'Date'}</p>
+                            <p style="font-size: 13px; color: #666; margin: 0.8rem 0 0 0;">${soustitre || 'Sous-titre'}</p>
                         </div>
                     </div>
-                    <div style="flex: 1; padding: 2rem; background: #f9f9f9; display: flex; flex-direction: column; overflow-y: auto;">
-                        <div style="margin-bottom: 1.5rem;">
-                            <p style="font-size: 14px; color: #333; margin: 0;">${soustitre || 'Sous-titre'}</p>
-                        </div>
+                    <div style="flex: 1; padding: 2rem; background: white; display: flex; flex-direction: column; overflow-y: auto;">
                         ${themesSection}
                     </div>
                 </div>
